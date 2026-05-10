@@ -9,7 +9,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const RESEND_TEST_MODE = process.env.RESEND_TEST_MODE === 'true';
 const RESEND_TEST_EMAIL = process.env.RESEND_TEST_EMAIL || 'juncando@gmail.com';
-const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'namastecurrylisboa@gmail.com';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@fumeslane.app';
 
 async function fixOrderAndSendEmails(orderNumber) {
   console.log(`🔧 Fixing order ${orderNumber} and sending emails...\n`);
@@ -144,3 +144,4 @@ async function fixOrderAndSendEmails(orderNumber) {
 
 const orderNumber = process.argv[2] || 'ORD-20251115-277';
 fixOrderAndSendEmails(orderNumber);
+

@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 export const WhatsAppButton = () => {
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      "Hi Namaste Curry House! I'd like to make a reservation at your Indian restaurant. Could you please help me with the booking?"
+      "Hi SHOPSPHERE! I have a question about your products and would like some help."
     );
-    window.open(`https://wa.me/351920617185?text=${message}`, "_blank");
+    window.open(`https://wa.me/919789909362?text=${message}`, "_blank");
   };
 
   return (

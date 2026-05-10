@@ -7,26 +7,29 @@ import { useSEO } from "../hooks/useSEO";
 
 const Gallery = () => {
   useSEO({
-    title: 'Gallery | Namaste Curry House - Authentic Indian Dishes',
-    description: 'Explore our gallery of authentic Indian dishes including tandoori specialties, aromatic curries, freshly baked naan, and traditional desserts.',
-    keywords: 'Indian food photos, tandoori images, curry pictures, Indian restaurant gallery, authentic Indian cuisine photos',
-    canonicalUrl: 'https://www.namastecurry.house/gallery'
+    title: 'Gallery | SHOPSPHERE',
+    description: 'Explore the SHOPSPHERE product gallery and visuals.',
+    keywords: 'products gallery, product photos, premium products, SHOPSPHERE',
+    canonicalUrl: 'https://www.fumeslane.com/gallery'
   });
   
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // List of actual images that exist in the folder
-  // Update this array when you add or remove images
-  const imageNumbers = [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
-  
-  const images = imageNumbers.map(num => {
-    const paddedIndex = String(num).padStart(3, '0');
-    return {
-      src: `/images/new images/Namaste_${paddedIndex}.jpeg`,
-      alt: `Namaste Curry House Gallery`,
-    };
-  });
+  const images = [
+    { src: "/images/fragrances/_0000_Afternoon_Swim.png", alt: "Afternoon Swim" },
+    { src: "/images/fragrances/_0001_J'adore.png", alt: "J'adore" },
+    { src: "/images/fragrances/_0002_Delina-La-Rosee.png", alt: "Delina La Rosee" },
+    { src: "/images/fragrances/_0003_BecauseItsYou.png", alt: "Because Its You" },
+    { src: "/images/fragrances/_0004_GoodGirl.png", alt: "Good Girl" },
+    { src: "/images/fragrances/_0005_SilverMountainWater.png", alt: "Silver Mountain Water" },
+    { src: "/images/fragrances/_0006_Eilish.png", alt: "Eilish" },
+    { src: "/images/fragrances/_0007_ManInBlack.png", alt: "Man In Black" },
+    { src: "/images/fragrances/_0008_Wanted.png", alt: "Wanted" },
+    { src: "/images/fragrances/_0009_Sauvage.png", alt: "Sauvage" },
+    { src: "/images/fragrances/_0010_TobaccoVanille.png", alt: "Tobacco Vanille" },
+    { src: "/images/fragrances/_0011_Ice.png", alt: "Ice" },
+  ];
 
   const openLightbox = (imageSrc: string) => {
     const index = images.findIndex(img => img.src === imageSrc);

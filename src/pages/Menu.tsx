@@ -11,7 +11,7 @@ import { MenuCategory, MenuItem } from "../types/menu";
 import { QuantityStepper } from "../components/QuantityStepper";
 import { useItemCartQuantity } from "../hooks/useCartQuantity";
 import useCartStore from "../stores/cartStore";
-import { API_BASE_URL } from "../lib/apiConfig";
+import { fetchJson } from "../lib/apiConfig";
 import { useMenuData } from "../hooks/useMenuData";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useSEO } from "../hooks/useSEO";
@@ -25,14 +25,19 @@ interface StoreStatus {
 }
 
 const MenuSection = ({ items, title, isStoreClosed }: { items: MenuItem[], title: string, isStoreClosed: boolean }) => {
-  const placeholderImg = "/images/placeholder-food.svg";
+  const placeholderImg = "/images/placeholder-product.svg";
   
   return (
     <div className="space-y-6">
       <h3 className="text-3xl font-bold text-primary mb-8">{title}</h3>
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item, index) => (
-          <MenuItemCard key={item.id || index} item={item} placeholderImg={placeholderImg} isStoreClosed={isStoreClosed} />
+          <MenuItemCard
+            key={`${item.id || item.name || 'item'}-${index}`}
+            item={item}
+            placeholderImg={placeholderImg}
+            isStoreClosed={isStoreClosed}
+          />
         ))}
       </div>
     </div>
@@ -271,7 +276,7 @@ const MenuItemCard = ({ item, placeholderImg, isStoreClosed }: { item: MenuItem,
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-3">
             <h4 className="text-xl font-bold text-foreground dark:text-gray-200">{displayName}</h4>
-            <span className="text-lg font-bold text-accent">€{item.price.toFixed(2)}</span>
+            <span className="text-lg font-bold text-accent">₹{(item.price / 100).toFixed(2)}</span>
           </div>
           <p className="text-foreground/70 dark:text-gray-200 mb-4 leading-relaxed">{displayDescription}</p>
           <div className="flex justify-between items-center gap-3">
@@ -317,21 +322,15 @@ const Menu = () => {
   
   // Store status state
   const [storeStatus, setStoreStatus] = useState<StoreStatus | null>(null);
-  const [loadingStoreStatus, setLoadingStoreStatus] = useState(true);
 
   // Fetch store status
   useEffect(() => {
     const fetchStoreStatus = async () => {
       try {
-        const response = await fetch('/api/store-status');
-        if (response.ok) {
-          const data = await response.json();
-          setStoreStatus(data);
-        }
+        const data = await fetchJson<StoreStatus>('store-status');
+        setStoreStatus(data);
       } catch (err) {
         console.error('Failed to fetch store status:', err);
-      } finally {
-        setLoadingStoreStatus(false);
       }
     };
     
@@ -341,8 +340,12 @@ const Menu = () => {
   const isStoreClosed = storeStatus?.isOpen === false;
 
   // Tabs: use categories from menuData
-  const tabKeys = menuData.map((cat) => cat.name);
-  const defaultTab = tabKeys[0] || "menu";
+  const tabs = menuData.map((category, index) => ({
+    category,
+    key: `${category.name}-${index}`,
+    value: `category-${index}`,
+  }));
+  const defaultTab = tabs[0]?.value || "menu";
 
   return (
     <div className="min-h-screen pt-16">
@@ -355,15 +358,15 @@ const Menu = () => {
         ) : (
           <Tabs defaultValue={defaultTab} className="space-y-8">
             <TabsList className="inline-flex w-full justify-start overflow-x-auto bg-card/50 backdrop-blur-sm border-primary/20 md:flex-wrap gap-2 scrollbar-hide">
-              {tabKeys.map((key) => (
-                <TabsTrigger key={key} value={key} className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">
-                  {key}
+              {tabs.map(({ key, value, category }) => (
+                <TabsTrigger key={key} value={value} className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">
+                  {category.name}
                 </TabsTrigger>
               ))}
             </TabsList>
-            {menuData.map((cat) => (
-              <TabsContent key={cat.name} value={cat.name} className="space-y-8">
-                <MenuSection items={cat.items} title={cat.name} isStoreClosed={isStoreClosed} />
+            {tabs.map(({ key, value, category }) => (
+              <TabsContent key={key} value={value} className="space-y-8">
+                <MenuSection items={category.items} title={category.name} isStoreClosed={isStoreClosed} />
               </TabsContent>
             ))}
           </Tabs>

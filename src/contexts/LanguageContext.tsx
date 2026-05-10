@@ -31,12 +31,12 @@ const translations: Record<Language, Translations> = {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   // Initialize from localStorage or default to English
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('namaste-language');
+    const saved = localStorage.getItem('shopsphere-language');
     // Force reset to English if version flag is not set (migration from old default)
-    const version = localStorage.getItem('namaste-language-version');
+    const version = localStorage.getItem('shopsphere-language-version');
     if (!version) {
-      localStorage.setItem('namaste-language-version', '1');
-      localStorage.setItem('namaste-language', 'en');
+      localStorage.setItem('shopsphere-language-version', '1');
+      localStorage.setItem('shopsphere-language', 'en');
       return 'en';
     }
     return (saved as Language) || 'en';
@@ -44,7 +44,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
   // Persist language preference
   useEffect(() => {
-    localStorage.setItem('namaste-language', language);
+    localStorage.setItem('shopsphere-language', language);
   }, [language]);
 
   const setLanguage = (lang: Language) => {

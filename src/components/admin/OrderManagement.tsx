@@ -5,8 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowLeft, RefreshCw, ExternalLink, Phone, Mail, MapPin } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://namastecurryhouse.vercel.app/api';
+import { fetchJson } from '@/lib/apiConfig';
 
 interface Order {
   id: number;
@@ -41,13 +40,7 @@ export default function OrderManagement({ onClose }: OrderManagementProps) {
       if (showRefreshing) setRefreshing(true);
       else setLoading(true);
       
-      const response = await fetch(`${API_BASE_URL}/orders`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch orders');
-      }
-      
-      const data = await response.json();
+      const data = await fetchJson<Order[]>('orders');
       setOrders(data);
       setError(null);
     } catch (err: any) {
@@ -68,8 +61,7 @@ export default function OrderManagement({ onClose }: OrderManagementProps) {
 
   const getWhatsAppLink = async (orderId: number) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/whatsapp-link`);
-      const data = await response.json();
+      const data = await fetchJson<{ whatsappLink: string }>(`orders/${orderId}/whatsapp-link`);
       window.open(data.whatsappLink, '_blank');
     } catch (err) {
       console.error('Failed to get WhatsApp link:', err);

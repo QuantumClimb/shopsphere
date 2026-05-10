@@ -1,219 +1,60 @@
 [
-    {
-        "Item":"Tikka Masala - Chicken",
-        "Description":"Grilled meat with tikka sauce, yogurt, cream and spices",
-        "Price (EUR)":"€11.99",
-        "Portuguese Translation":"Frango Tikka Masala",
-        "Descrição (Português)":"Pedaços de carne marinada em molho especial tikka com iogurte, natas e especiarias, grelhada no forno indiano"
-    },
-    {
-        "Item":"Tikka Masala - Lamb",
-        "Description":"Grilled meat with tikka sauce, yogurt, cream and spices",
-        "Price (EUR)":"€12.99",
-        "Portuguese Translation":"Borrego Tikka Masala",
-        "Descrição (Português)":"Pedaços de carne marinada em molho especial tikka com iogurte, natas e especiarias, grelhada no forno indiano"
-    },
-    {
-        "Item":"Tikka Masala - Prawn",
-        "Description":"Grilled meat with tikka sauce, yogurt, cream and spices",
-        "Price (EUR)":"€12.99",
-        "Portuguese Translation":"Camarão Tikka Masala",
-        "Descrição (Português)":"Pedaços de carne marinada em molho especial tikka com iogurte, natas e especiarias, grelhada no forno indiano"
-    },
-    {
-        "Item":"Lababdar - Chicken",
-        "Description":"Cooked with onion, tomato, garlic, ginger, coriander and cashew sauce",
-        "Price (EUR)":"€11.99",
-        "Portuguese Translation":"Frango Lababdar",
-        "Descrição (Português)":"Cozinhado com cebola fresca, tomate, alho, gengibre, coentros e molho especial de caju"
-    },
-    {
-        "Item":"Lababdar - Lamb",
-        "Description":"Cooked with onion, tomato, garlic, ginger, coriander and cashew sauce",
-        "Price (EUR)":"€12.99",
-        "Portuguese Translation":"Borrego Lababdar",
-        "Descrição (Português)":"Cozinhado com cebola fresca, tomate, alho, gengibre, coentros e molho especial de caju"
-    },
-    {
-        "Item":"Lababdar - Prawn",
-        "Description":"Cooked with onion, tomato, garlic, ginger, coriander and cashew sauce",
-        "Price (EUR)":"€12.99",
-        "Portuguese Translation":"Camarão Lababdar",
-        "Descrição (Português)":"Cozinhado com cebola fresca, tomate, alho, gengibre, coentros e molho especial de caju"
-    },
-    {
-        "Item":"Vegetable Curry",
-        "Description":"Mixed vegetables cooked in special sauce with spices",
-        "Price (EUR)":"€9.99",
-        "Portuguese Translation":"Caril de Vegetais",
-        "Descrição (Português)":"Vegetais mistos cozinhados com molho especial e especiarias"
-    },
-    {
-        "Item":"Daal Tarka",
-        "Description":"Three types of lentils cooked in special sauce and spices",
-        "Price (EUR)":"€10.99",
-        "Portuguese Translation":"Daal Tarka",
-        "Descrição (Português)":"Três tipos de lentilhas cozinhados com molho especial e especiarias"
-    },
-    {
-        "Item":"Karahi Vegetable",
-        "Description":"Mixed vegetables cooked in thick, flavorful sauce",
-        "Price (EUR)":"€10.99",
-        "Portuguese Translation":"Karahi de Vegetais",
-        "Descrição (Português)":"Vegetais mistos cozinhados com molho espesso e saboroso"
-    },
-    {
-        "Item":"Chana Masala",
-        "Description":"Chickpeas cooked with mild spices, onions and tomatoes",
-        "Price (EUR)":"€10.99",
-        "Portuguese Translation":"Chana Masala",
-        "Descrição (Português)":"Grão cozido com molho especial suave, cebola e especiarias"
-    },
-    {
-        "Item":"Coca Cola",
-        "Description":"Soft drink",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Coca Cola",
-        "Descrição (Português)":"Refrigerante"
-    },
-    {
-        "Item":"Cola Zero",
-        "Description":"Soft drink",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Cola Zero",
-        "Descrição (Português)":"Refrigerante"
-    },
-    {
-        "Item":"Fanta",
-        "Description":"Soft drink",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Fanta",
-        "Descrição (Português)":"Refrigerante"
-    },
-    {
-        "Item":"Icetea (Lemon, Mango, Peach)",
-        "Description":"Flavored iced tea",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Icetea (Limão, Manga, Pêssego)",
-        "Descrição (Português)":"Chá gelado com sabores (limão, manga, pêssego)"
-    },
-    {
-        "Item":"Sparkling Water",
-        "Description":"Mineral water with gas",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Água Com Gás",
-        "Descrição (Português)":"Água mineral com gás"
-    },
-    {
-        "Item":"Water 50cl",
-        "Description":"Still water",
-        "Price (EUR)":"€2.00",
-        "Portuguese Translation":"Água 50cl",
-        "Descrição (Português)":"Água sem gás 50cl"
-    },
-    {
-        "Item":"Water 1.5L",
-        "Description":"Still water",
-        "Price (EUR)":"€2.99",
-        "Portuguese Translation":"Água 1.5L",
-        "Descrição (Português)":"Água sem gás 1.5L"
-    },
-    {
-        "Item":"Beer - Imperial",
-        "Description":"Draft beer",
-        "Price (EUR)":"€2.00",
-        "Portuguese Translation":"Cerveja Imperial",
-        "Descrição (Português)":"Cerveja de pressão"
-    },
-    {
-        "Item":"Beer - Mug",
-        "Description":"Beer served in a mug",
-        "Price (EUR)":"€3.50",
-        "Portuguese Translation":"Caneca de Cerveja",
-        "Descrição (Português)":"Cerveja servida em caneca"
-    },
-    {
-        "Item":"Nepalese Beer",
-        "Description":"Imported beer from Nepal",
-        "Price (EUR)":"€2.99",
-        "Portuguese Translation":"Cerveja Nepalesa",
-        "Descrição (Português)":"Cerveja importada do Nepal"
-    },
-    {
-        "Item":"Indian Beer",
-        "Description":"Imported beer from India",
-        "Price (EUR)":"€3.50",
-        "Portuguese Translation":"Cerveja Indiana",
-        "Descrição (Português)":"Cerveja importada da Índia"
-    },
-    {
-        "Item":"Somersby",
-        "Description":"Cider",
-        "Price (EUR)":"€2.99",
-        "Portuguese Translation":"Somersby",
-        "Descrição (Português)":"Sidra"
-    },
-    {
-        "Item":"Glass of Wine (White\/Red)",
-        "Description":"House wine",
-        "Price (EUR)":"€3.50",
-        "Portuguese Translation":"Copo de Vinho (Branco\/Tinto)",
-        "Descrição (Português)":"Vinho da casa (branco\/tinto)"
-    },
-    {
-        "Item":"Plain Lassi",
-        "Description":"Traditional yogurt drink",
-        "Price (EUR)":"€2.50",
-        "Portuguese Translation":"Lassi Natural",
-        "Descrição (Português)":"Bebida tradicional de iogurte"
-    },
-    {
-        "Item":"Mango Lassi",
-        "Description":"Special yogurt drink with mango",
-        "Price (EUR)":"€3.50",
-        "Portuguese Translation":"Mango Lassi",
-        "Descrição (Português)":"Bebida especial de iogurte com manga"
-    },
-    {
-        "Item":"Butter Naan",
-        "Description":"Leavened bread baked in the tandoor and brushed with butter",
-        "Price (EUR)":"€2.99",
-        "Portuguese Translation":"Pão Indiano com Manteiga",
-        "Descrição (Português)":"Pão levedado cozido no forno tandoor e pincelado com manteiga"
-    },
-    {
-        "Item":"Garlic Naan",
-        "Description":"Leavened tandoori bread with fire-roasted garlic and coriander",
-        "Price (EUR)":"€3.99",
-        "Portuguese Translation":"Pão Indiano com Alho",
-        "Descrição (Português)":"Pão tandoori com alho assado e coentros"
-    },
-    {
-        "Item":"Cheese Naan",
-        "Description":"Leavened bread baked in the tandoor with cheese and coriander leaves",
-        "Price (EUR)":"€4.50",
-        "Portuguese Translation":"Pão Indiano com Queijo",
-        "Descrição (Português)":"Pão cozido no forno tandoor com queijo e coentros"
-    },
-    {
-        "Item":"Cheese & Garlic Naan",
-        "Description":"Leavened bread baked in the tandoor with cheese, garlic and coriander",
-        "Price (EUR)":"€5.50",
-        "Portuguese Translation":"Pão Indiano com Queijo e Alho",
-        "Descrição (Português)":"Pão cozido no forno tandoor com queijo, alho e coentros"
-    },
-    {
-        "Item":"Mixed Salad",
-        "Description":"Cucumber, lettuce, tomato, onion, carrots & olives",
-        "Price (EUR)":"€5.99",
-        "Portuguese Translation":"Salada Mista",
-        "Descrição (Português)":"Pepino, alface, tomate, cebola, cenoura e azeitonas"
-    },
-    {
-        "Item":"Coffee",
-        "Description":"Hot beverage",
-        "Price (EUR)":"€0.99",
-        "Portuguese Translation":"Café",
-        "Descrição (Português)":"Bebida quente"
-    }
+  {
+    "category": "Mens Fragrances",
+    "items": [
+      {
+        "id": 1,
+        "name": "Sauvage",
+        "brand": "Dior",
+        "description": "A radically fresh composition, dictated by a name that has the ring of a manifesto.",
+        "price": 850000,
+        "imageUrl": "/images/fragrances/_0009_Sauvage.png",
+        "concentration": "Eau de Parfum",
+        "gender": "Male",
+        "fragranceFamily": "Aromatic Fougere",
+        "volume": "100ml"
+      },
+      {
+        "id": 2,
+        "name": "1 Million",
+        "brand": "Paco Rabanne",
+        "description": "The scent of success. Going for gold because decadence is thrilling.",
+        "price": 750000,
+        "imageUrl": "/images/fragrances/_0035_1Million.png",
+        "concentration": "Eau de Toilette",
+        "gender": "Male",
+        "fragranceFamily": "Woody Spicy",
+        "volume": "100ml"
+      }
+    ]
+  },
+  {
+    "category": "Womens Fragrances",
+    "items": [
+      {
+        "id": 3,
+        "name": "J'adore",
+        "brand": "Dior",
+        "description": "An ode to women, their audacity and their beauty.",
+        "price": 950000,
+        "imageUrl": "/images/fragrances/_0001_J'adore.png",
+        "concentration": "Eau de Parfum",
+        "gender": "Female",
+        "fragranceFamily": "Floral",
+        "volume": "100ml"
+      },
+      {
+        "id": 4,
+        "name": "Good Girl",
+        "brand": "Carolina Herrera",
+        "description": "It's so good to be bad. A fragrance as powerful as it is sensual.",
+        "price": 890000,
+        "imageUrl": "/images/fragrances/_0004_GoodGirl.png",
+        "concentration": "Eau de Parfum",
+        "gender": "Female",
+        "fragranceFamily": "Oriental Floral",
+        "volume": "80ml"
+      }
+    ]
+  }
 ]

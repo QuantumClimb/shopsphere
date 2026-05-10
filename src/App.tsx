@@ -13,6 +13,8 @@ import Menu from "./pages/Menu";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import OurStory from "./pages/OurStory";
+import Gallery from "./pages/Gallery";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import CustomerSupport from "./pages/CustomerSupport";
@@ -37,7 +39,9 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Menu />} />
           <Route path="/shop" element={<Menu />} />
-          {/* <Route path="/contact" element={<Contact />} /> */}
+          <Route path="/our-story" element={<OurStory />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />

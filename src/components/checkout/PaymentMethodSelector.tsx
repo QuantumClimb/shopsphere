@@ -5,8 +5,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { CreditCard } from 'lucide-react';
 import { PaymentMethod } from '@/types/order';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://namastecurryhouse.vercel.app/api';
+import { fetchJson } from '@/lib/apiConfig';
 
 interface PaymentMethodSelectorProps {
   onSelect: (method: PaymentMethod) => void;
@@ -20,13 +19,7 @@ export default function PaymentMethodSelector({ onSelect, onBack, total }: Payme
   
   // Check if Stripe is configured
   useEffect(() => {
-    fetch(`${API_BASE_URL}/stripe/config`)
-      .then(res => {
-        if (!res.ok) {
-          setStripeAvailable(false);
-        }
-        return res.json();
-      })
+    fetchJson<{ publishableKey?: string }>('stripe/config')
       .then(data => {
         if (!data.publishableKey) {
           setStripeAvailable(false);
@@ -90,7 +83,7 @@ export default function PaymentMethodSelector({ onSelect, onBack, total }: Payme
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <div className="flex justify-between text-lg font-bold">
             <span>Total to Pay:</span>
-            <span>€{total.toFixed(2)}</span>
+            <span>₹{(total / 100).toFixed(2)}</span>
           </div>
         </div>
         

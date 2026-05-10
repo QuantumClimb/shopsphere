@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { CustomerInfo, DeliveryAddress } from '@/types/order';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://namastecurryhouse.vercel.app/api';
+import { buildApiUrl } from '@/lib/apiConfig';
 
 interface StripeCheckoutButtonProps {
   orderItems: any[];
@@ -40,7 +39,7 @@ export default function StripeCheckoutButton({
       }));
       
       // Create checkout session
-      const response = await fetch(`${API_BASE_URL}/stripe/create-checkout-session`, {
+      const response = await fetch(buildApiUrl('stripe/create-checkout-session'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,4 +1,4 @@
-﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const CancellationRefund = () => {
   return (
@@ -12,7 +12,7 @@ const CancellationRefund = () => {
                 <strong>Last Updated:</strong> November 3, 2025
               </p>
               <p className="text-foreground/80 leading-relaxed">
-                At FumesLane, we want you to be completely satisfied with your order. 
+                At SHOPSPHERE, we want you to be completely satisfied with your order. 
                 This policy outlines our procedures for order cancellations and refunds.
               </p>
             </CardContent>
@@ -81,7 +81,7 @@ const CancellationRefund = () => {
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Phone: +351 920 617 185</li>
-                <li>Email: namastecurrylisboa@gmail.com</li>
+                <li>Email: support@fumeslane.app</li>
               </ul>
               
               <p className="font-semibold mt-4">Step 2: Provide Details</p>
@@ -224,7 +224,7 @@ const CancellationRefund = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 If you are not satisfied with our resolution to your refund request, please escalate 
-                the matter by contacting our management team at namastecurrylisboa@gmail.com with 
+                the matter by contacting our management team at support@fumeslane.app with 
                 "Refund Dispute" in the subject line.
               </p>
               <p className="mt-4">
@@ -258,8 +258,8 @@ const CancellationRefund = () => {
               </p>
               <ul className="list-none space-y-2 mt-4">
                 <li><strong>Phone:</strong> +351 920 617 185 (Mon-Sat: 11 AM - 10 PM, Closed Sundays)</li>
-                <li><strong>Email:</strong> namastecurrylisboa@gmail.com</li>
-                <li><strong>Address:</strong> R. Agostinho LourenÃ§o 339, 1000-011 Lisboa, Portugal</li>
+                <li><strong>Email:</strong> support@fumeslane.app</li>
+                <li><strong>Address:</strong> R. Agostinho Lourenço 339, 1000-011 Lisboa, Portugal</li>
               </ul>
             </CardContent>
           </Card>
@@ -282,4 +282,5 @@ const CancellationRefund = () => {
 };
 
 export default CancellationRefund;
+
 

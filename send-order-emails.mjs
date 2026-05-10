@@ -56,7 +56,7 @@ async function sendEmails() {
     console.log('\n2️⃣ Sending owner notification email...');
     const ownerResult = await resend.emails.send({
       from: 'Namaste Curry <orders@namastecurry.house>',
-      to: process.env.RESTAURANT_EMAIL || 'namastecurrylisboa@gmail.com',
+      to: process.env.RESTAURANT_EMAIL || 'support@fumeslane.app',
       subject: `New Order - ${order.orderNumber}`,
       html: generateOwnerEmail(orderWithItems)
     });
@@ -202,3 +202,4 @@ function generateOwnerEmail(order) {
 }
 
 sendEmails();
+

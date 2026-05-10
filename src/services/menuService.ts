@@ -1,14 +1,10 @@
 import { MenuItem, MenuCategory, MenuData } from '../types/menu';
-import { API_BASE_URL } from '../lib/apiConfig';
+import { fetchJson } from '../lib/apiConfig';
 
 // Fetch all menu categories and items from the API
 export async function getMenuData(): Promise<MenuData> {
   try {
-    const response = await fetch(`${API_BASE_URL}/menu`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch menu: ${response.statusText}`);
-    }
-    return await response.json();
+    return await fetchJson<MenuData>('menu');
   } catch (error) {
     console.error('Error fetching menu data:', error);
     // Fallback to static JSON in public folder
@@ -28,12 +24,7 @@ export async function getMenuData(): Promise<MenuData> {
 // Search menu items
 export async function searchMenuItems(query: string): Promise<MenuItem[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/menu/search?q=${encodeURIComponent(query)}`);
-    if (!response.ok) {
-      throw new Error(`Failed to search menu: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data;
+    return await fetchJson<MenuItem[]>(`menu/search?q=${encodeURIComponent(query)}`);
   } catch (error) {
     console.error('Error searching menu:', error);
     throw error;
@@ -43,11 +34,7 @@ export async function searchMenuItems(query: string): Promise<MenuItem[]> {
 // Get items by category
 export async function getMenuByCategory(categoryName: string): Promise<MenuCategory> {
   try {
-    const response = await fetch(`${API_BASE_URL}/menu/category/${encodeURIComponent(categoryName)}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch category: ${response.statusText}`);
-    }
-    const data = await response.json();
+    const data = await fetchJson<{ category: string; items: MenuItem[] }>(`menu/category/${encodeURIComponent(categoryName)}`);
     return {
       name: data.category,
       items: data.items

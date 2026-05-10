@@ -10,8 +10,7 @@
   "common": {
     "orderNow": "Encomendar Agora",
     "learnMore": "Saber Mais",
-    "bookTable": "Reservar Mesa",
-    "viewMenu": "Ver Menu Completo",
+    "viewCollection": "Ver Coleção",
     "submit": "Enviar",
     "cancel": "Cancelar",
     "save": "Guardar",
@@ -27,81 +26,81 @@
     "goHome": "Ir para a Página Inicial"
   },
   "ourStory": {
-    "title": "Bem-vindo ao Namaste Curry House",
-    "subtitle": "Viva as ricas tradições da cozinha indiana com especiarias autênticas, receitas tradicionais e uma hospitalidade calorosa",
-    "storyTitle": "Onde Tudo Começou",
-    "story1": "O Namaste Curry House nasceu de uma visão simples: criar um espaço onde os sabores autênticos indianos e a hospitalidade tradicional se unem para criar experiências gastronómicas memoráveis. Tornámo-nos um destino querido para quem procura a genuína cozinha indiana.",
-    "story2": "O nosso nome, Namaste Curry House, representa a essência de boas-vindas e respeito – uma filosofia que permeia todos os aspectos do nosso estabelecimento. Desde o momento em que entra pelas nossas portas, é transportado para um mundo onde cada prato conta uma história do rico património culinário da Índia.",
-    "story3": "Acreditamos que uma boa comida não é apenas sobre o sabor – é sobre reunir pessoas, partilhar tradições e criar conexões através da linguagem universal da autêntica cozinha indiana.",
-    "experienceTitle": "A Experiência Namaste",
-    "experienceSubtitle": "Mergulhe nos sabores autênticos indianos, na hospitalidade tradicional e no calor da nossa atmosfera acolhedora",
+    "title": "Bem-vindo à ShopSphere",
+    "subtitle": "Descubra um mundo de fragrâncias de luxo, selecionadas pela sua elegância e expressão individual.",
+    "storyTitle": "A Nossa Jornada Olfativa",
+    "story1": "A ShopSphere nasceu de uma paixão por aromas que contam histórias. Acreditamos que uma fragrância é mais do que apenas um cheiro; é um acessório invisível que define a sua presença.",
+    "story2": "A nossa coleção é cuidadosamente selecionada de todo o mundo, apresentando casas de nicho e obras-primas de designers que evocam emoção e memória.",
+    "story3": "Dedicamo-nos a ajudá-lo a encontrar o seu aroma de assinatura, proporcionando uma experiência imersiva que celebra a arte da perfumaria.",
+    "experienceTitle": "A Experiência SHOPSPHERE",
+    "experienceSubtitle": "Explore produtos selecionados, uma compra sem fricção e uma experiência pensada para clareza e conveniência.",
     "traditionTitle": "Tradição Aperfeiçoada",
-    "traditionText1": "O Namaste Curry House não é apenas um restaurante – é uma viagem pelas ricas tradições culinárias da Índia. Os nossos mestres cozinheiros utilizam receitas autênticas e métodos de cozinha tradicionais para lhe trazer o verdadeiro sabor da Índia.",
-    "traditionText2": "Desde birianes aromáticos a caril saborosos, cada prato no Namaste Curry House é preparado com amor e respeito pelo património culinário indiano.",
+    "traditionText1": "A SHOPSPHERE foi construída em torno de uma seleção cuidada de produtos, qualidade consistente e uma experiência de compra moderna do início ao fim.",
+    "traditionText2": "Da descoberta à entrega, cada parte da SHOPSPHERE foi desenhada para ajudar os clientes a comprar com confiança.",
     "visionTitle": "A Nossa Visão",
-    "visionText": "Ser mais do que apenas um restaurante – ser uma ponte entre culturas através da autêntica cozinha indiana. Não servimos apenas comida; partilhamos tradições, histórias e o calor da hospitalidade indiana em cada refeição.",
-    "visionQuote": "Cada refeição no Namaste Curry House é uma celebração de sabores autênticos, receitas tradicionais e a alegria de partilhar boa comida com os entes queridos.",
-    "visionClosing": "Junte-se a nós enquanto continuamos a trazer o sabor autêntico da Índia à sua mesa, um prato de cada vez.",
-    "ctaTitle": "Experimente a Índia Autêntica",
-    "ctaSubtitle": "Junte-se a nós para uma experiência gastronómica inesquecível onde as receitas tradicionais encontram uma hospitalidade calorosa",
+    "visionText": "Ser mais do que apenas uma loja - tornar-se um destino de confiança onde os clientes descobrem produtos de que gostam através de uma experiência de compra polida e fiável.",
+    "visionQuote": "Cada encomenda na SHOPSPHERE deve ser simples, fiável e valer a pena repetir.",
+    "visionClosing": "Junte-se a nós enquanto continuamos a construir uma forma mais inteligente e agradável de comprar.",
+    "ctaTitle": "Descubra a SHOPSPHERE",
+    "ctaSubtitle": "Explore uma experiência de compra construída em torno da qualidade, confiança e conveniência.",
     "heritage": {
-      "title": "Herança Tradicional",
-      "description": "Receitas autênticas passadas de geração em geração, trazendo os verdadeiros sabores da Índia para a sua mesa"
+      "title": "Herança Curada",
+      "description": "Celebrando as tradições intemporais da perfumaria global, de Grasse ao Oriente."
     },
     "excellence": {
-      "title": "Excelência Culinária",
-      "description": "Os nossos mestres cozinheiros utilizam técnicas tradicionais e especiarias autênticas para criar experiências gastronómicas indianas inesquecíveis"
+      "title": "Excelência Olfativa",
+      "description": "Os nossos especialistas selecionam cada frasco com base na complexidade, longevidade e na história única por trás da fragrância."
     },
     "ingredients": {
-      "title": "Ingredientes Frescos",
-      "description": "Especiarias de alta qualidade, vegetais frescos e ingredientes autênticos selecionados para manter os sabores tradicionais"
+      "title": "Ingredientes Puros",
+      "description": "De absolutos naturais a aromaquímicos modernos, focamo-nos em fragrâncias criadas com materiais da mais alta qualidade."
     },
     "hospitality": {
-      "title": "Hospitalidade Calorosa",
-      "description": "Um espaço acolhedor onde famílias e amigos se reúnem para saborear a autêntica cozinha indiana e a tradicional hospitalidade"
+      "title": "Perfumaria Personalizada",
+      "description": "Oferecemos consultas individuais para o ajudar a navegar na nossa coleção e descobrir a sua identidade olfativa."
     },
     "valuesTitle": "O Que Nos Move",
-    "valuesSubtitle": "Quatro pilares que definem a experiência Namaste Curry House e o nosso compromisso com a autêntica cozinha indiana",
+    "valuesSubtitle": "Quatro pilares que definem a experiência SHOPSPHERE e o nosso compromisso com compras de qualidade.",
     "features": {
       "recipes": {
-        "title": "Receitas Tradicionais",
-        "description": "Pratos indianos autênticos preparados com receitas e técnicas familiares antigas"
+        "title": "Curadoria Especializada",
+        "description": "Cada fragrância na nossa coleção é escolhida a dedo pelo seu caráter único e qualidade."
       },
       "fresh": {
-        "title": "Ingredientes Frescos",
-        "description": "Especiarias premium e ingredientes frescos selecionados para manter os sabores autênticos"
+        "title": "Alcance Global",
+        "description": "Buscando os aromas mais procurados em laboratórios independentes e casas históricas em todo o mundo."
       },
       "dining": {
-        "title": "Serviço Todo o Dia",
-        "description": "Do almoço ao jantar, desfrute do nosso menu completo de especialidades indianas"
+        "title": "Aromas de Assinatura",
+        "description": "Ajudando-o a encontrar a fragrância perfeita para cada ocasião, estação e estado de espírito."
       },
       "family": {
-        "title": "Ambiente Familiar",
-        "description": "Ambiente acolhedor, perfeito para famílias e celebrações em grupo"
+        "title": "Autenticidade Garantida",
+        "description": "Trabalhamos apenas com produtos 100% autênticos, adquiridos diretamente de fabricantes ou distribuidores autorizados."
       }
     }
   },
   "menu": {
-    "title": "O Nosso Menu",
-    "subtitle": "Descubra a nossa deliciosa seleção de pratos indianos autênticos",
+    "title": "Coleção de Fragrâncias",
+    "subtitle": "Descubra a nossa requintada seleção de perfumes de design e de nicho",
     "allCategories": "Todas as Categorias",
     "addToCart": "Adicionar ao Carrinho",
-    "spiceLevel": "Nível de Picante",
-    "selectSpice": "Selecione o nível de picante",
+    "concentration": "Concentração",
+    "selectConcentration": "Selecione a concentração",
     "quantity": "Quantidade",
     "price": "Preço",
-    "dietary": "Preferências Alimentares",
-    "vegetarian": "Vegetariano",
-    "vegan": "Vegano",
-    "glutenFree": "Sem Glúten",
-    "searchPlaceholder": "Pesquisar itens do menu..."
+    "volume": "Volume",
+    "male": "Para Homem",
+    "female": "Para Mulher",
+    "unisex": "Unissexo",
+    "searchPlaceholder": "Pesquisar fragrâncias..."
   },
   "cart": {
     "title": "Carrinho de Compras",
     "items": "itens",
     "clear": "Limpar",
     "emptyCart": "O seu carrinho está vazio",
-    "emptyCartMessage": "Adicione alguns itens deliciosos do nosso menu!",
+    "emptyCartMessage": "Encontre o seu próximo aroma de assinatura na nossa coleção!",
     "subtotal": "Subtotal",
     "deliveryFee": "Taxa de Entrega",
     "total": "Total",
@@ -121,9 +120,9 @@
     "storeClosed": "A loja está atualmente fechada",
     "storeClosedMessage": "A compra está desativada enquanto a loja está fechada. Pode navegar no menu e voltar mais tarde.",
     "storeClosedCheckoutDisabled": "Loja Fechada - Compra Desativada",
-    "returnToMenu": "Voltar ao Menu",
+    "returnToShop": "Voltar à Loja",
     "yourOrder": "O Seu Pedido",
-    "spiceLevel": "Nível de Picante",
+    "concentration": "Concentração",
     "continueToCustomerInfo": "Continuar para Informações do Cliente",
     "deliveryInfo": "Informações de Entrega",
     "paymentMethod": "Método de Pagamento",
@@ -148,7 +147,7 @@
   },
   "reservation": {
     "title": "Reservas",
-    "subtitle": "Garanta o seu lugar para uma autêntica experiência gastronómica indiana no Namaste Curry House",
+    "subtitle": "Garanta o seu lugar para a experiência SHOPSPHERE",
     "bookTable": "Reserve a Sua Mesa",
     "openHours": "Aberto Segunda - Sábado: 11h00 - 22h00",
     "closedSundays": "Fechado aos Domingos",
@@ -170,8 +169,8 @@
     "people": "pessoas",
     "on": "no dia",
     "at": "às",
-    "whatsappBooking": "Olá Namaste Curry House! Gostaria de fazer uma reserva para",
-    "whatsappWaitlist": "Olá Namaste Curry House! Gostaria de juntar-me à lista de espera para",
+    "whatsappBooking": "Olá SHOPSPHERE! Gostaria de fazer uma reserva para",
+    "whatsappWaitlist": "Olá SHOPSPHERE! Gostaria de juntar-me à lista de espera para",
     "confirmAvailability": "Por favor, confirme a disponibilidade.",
     "notifyAvailable": "Por favor, notifique-me se houver uma mesa disponível.",
     "name": "O Seu Nome",
@@ -192,7 +191,7 @@
     "scanReviews": "Digitalize para Avaliações",
     "quickContact": "Contacto Rápido",
     "quickContactDesc": "Tem alguma pergunta? Entre em contacto connosco diretamente via WhatsApp para uma resposta rápida sobre reservas, itens do menu ou catering.",
-    "whatsappMessage": "Olá Namaste Curry House! Tenho uma pergunta sobre o vosso restaurante indiano. Podem ajudar-me?",
+    "whatsappMessage": "Olá SHOPSPHERE! Tenho uma pergunta sobre os vossos produtos. Podem ajudar-me?",
     "whatsappUs": "WhatsApp",
     "followUs": "Siga-nos",
     "address": "Endereço",
@@ -213,7 +212,7 @@
   "customerSupport": {
     "title": "Apoio ao Cliente",
     "howCanWeHelp": "Como Podemos Ajudá-lo?",
-    "helpDescription": "Na Namaste Curry House, estamos comprometidos em fornecer um excelente atendimento ao cliente. Quer tenha dúvidas sobre o nosso menu, precise de ajuda com um pedido ou queira partilhar feedback, a nossa equipa está aqui para ajudá-lo.",
+    "helpDescription": "Na SHOPSPHERE, estamos comprometidos em fornecer um excelente atendimento ao cliente. Quer tenha dúvidas sobre o nosso catálogo, precise de ajuda com uma encomenda ou queira partilhar feedback, a nossa equipa está aqui para ajudar.",
     "callUs": "Ligue-nos",
     "callDescription": "Disponível durante o horário de funcionamento para assistência imediata com pedidos, reservas ou questões.",
     "emailUs": "Envie-nos um Email",
@@ -225,25 +224,24 @@
     "emailSupport": "Apoio por Email:",
     "emailSupportHours": "24/7 (Resposta dentro de 24 horas)",
     "faq": "Perguntas Frequentes",
-    "faqQuestion1": "Como faço um pedido?",
-    "faqAnswer1": "Pode fazer um pedido diretamente através do nosso website navegando no menu, adicionando itens ao seu carrinho e procedendo ao checkout. Também pode ligar-nos para +351 920 617 185 para pedidos por telefone.",
-    "faqQuestion2": "Quais são as suas áreas de entrega?",
-    "faqAnswer2": "Entregamos em Lisboa e áreas circundantes. A disponibilidade de entrega e as taxas podem variar com base na localização.",
-    "faqQuestion3": "Acomodam restrições dietéticas?",
-    "faqAnswer3": "Sim! Oferecemos opções vegetarianas, veganas e sem glúten. Por favor, informe-nos de quaisquer alergias ou requisitos dietéticos ao fazer o seu pedido, e faremos o nosso melhor para acomodá-lo.",
-    "faqQuestion4": "Posso modificar o meu pedido depois de o fazer?",
-    "faqAnswer4": "Por favor contacte-nos imediatamente em +351 920 617 185 se precisar de modificar o seu pedido. Faremos o nosso melhor para acomodar alterações se o pedido ainda não tiver sido preparado.",
-    "faqQuestion5": "Que métodos de pagamento aceitam?",
-    "faqAnswer5": "Aceitamos todos os principais cartões de crédito e débito através do nosso sistema de pagamento online seguro, bem como pagamento na entrega."
+    "faqQuestion1": "As vossas fragrâncias são autênticas?",
+    "faqAnswer1": "Absolutamente. Garantimos 100% de autenticidade para cada produto no nosso catálogo. Compramos diretamente de distribuidores oficiais e casas conceituadas.",
+    "faqQuestion2": "Qual é a diferença entre EDP e EDT?",
+    "faqAnswer2": "Eau de Parfum (EDP) tem uma concentração mais elevada de óleos de fragrância (15-20%) e normalmente dura mais tempo, enquanto a Eau de Toilette (EDT) é mais leve (5-15%) e melhor para uso diário.",
+    "faqQuestion3": "Como devo guardar o meu perfume?",
+    "faqAnswer3": "Mantenha os seus frascos num local fresco e escuro, longe da luz solar direta e da humidade para preservar a integridade do aroma.",
+    "faqQuestion4": "Posso experimentar uma fragrância antes de comprar?",
+    "faqAnswer4": "Atualmente, vendemos frascos completos, mas estamos a trabalhar num programa de conjuntos de descoberta. Fique atento às novidades!",
+    "faqQuestion5": "Faz em envios internacionais?",
+    "faqAnswer5": "Atualmente enviamos para toda a Índia. Verifique a nossa política de envio para detalhes."
   },
   "footer": {
     "about": "Sobre",
-    "aboutText": "Experimente a autêntica cozinha indiana no coração de Lisboa. Receitas tradicionais, hospitalidade calorosa e sabores inesquecíveis.",
+    "aboutText": "Descubra fragrâncias selecionadas na ShopSphere. Uma forma mais limpa e inteligente de comprar online.",
     "quickLinks": "Links Rápidos",
     "ourStory": "A Nossa História",
-    "menu": "Menu",
+    "shop": "Loja",
     "gallery": "Galeria",
-    "reservation": "Reserva",
     "contact": "Contato",
     "legal": "Legal",
     "privacy": "Política de Privacidade",
@@ -254,9 +252,9 @@
     "phone": "Telefone",
     "email": "Email",
     "hours": "Horário",
-    "mondayToSaturday": "Segunda a Sábado: 12h00 - 22h00",
+    "mondayToSaturday": "Segunda a Sábado: 10h00 - 20h00",
     "sundayClosed": "Domingo: Fechado",
-    "copyright": "© 2025 Namaste Curry House. Todos os direitos reservados.",
+    "copyright": "© 2025 SHOPSPHERE. Todos os direitos reservados.",
     "poweredBy": "DESENVOLVIDO POR QUANTUM CLIMB"
   },
   "legal": {
@@ -278,14 +276,14 @@
     "orderNumber": "Número do Pedido",
     "status": "Estado",
     "placed": "Pedido Realizado",
-    "preparing": "A Preparar",
-    "ready": "Pronto para Entrega",
+    "processing": "A Processar",
+    "shipped": "Enviado",
     "delivered": "Entregue",
     "cancelled": "Cancelado"
   },
   "orderConfirmation": {
     "title": "Pedido Confirmado!",
-    "thankYou": "Obrigado pela sua encomenda. Vamos começar a prepará-la imediatamente!",
+    "thankYou": "Obrigado pela sua encomenda. Estamos a preparar as suas fragrâncias para envio!",
     "orderNumber": "Número do Pedido",
     "deliveryAddress": "Endereço de Entrega",
     "estimatedDelivery": "Entrega Estimada",
@@ -303,6 +301,6 @@
     "loading": "A carregar o seu pedido...",
     "orderNotFound": "Pedido não encontrado",
     "notProvided": "Não fornecido",
-    "backToMenu": "Voltar ao Menu"
+    "backToShop": "Voltar à Loja"
   }
 }

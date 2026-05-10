@@ -16,7 +16,7 @@ export const useSEO = ({
   keywords,
   ogTitle,
   ogDescription,
-  ogImage = 'https://www.namastecurry.house/share-image.png',
+  ogImage = 'https://www.fumeslane.com/share-image.png',
   canonicalUrl
 }: SEOProps) => {
   useEffect(() => {
@@ -69,7 +69,7 @@ export const useSEO = ({
 
     // Cleanup function to reset to default on unmount
     return () => {
-      document.title = 'Namaste Curry House | Authentic Indian Restaurant & Food Delivery';
+      document.title = 'SHOPSPHERE';
     };
   }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonicalUrl]);
 };

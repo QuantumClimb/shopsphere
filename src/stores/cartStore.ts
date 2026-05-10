@@ -168,7 +168,7 @@ const useCartStore = create<ExtendedCartStore>()(
       },
     }),
     {
-      name: 'fumeslane-cart',
+      name: 'shopsphere-cart',
       version: 1,
     }
   )

@@ -1,12 +1,13 @@
 {
-  "name": "namaste-curry-house",
+  "name": "shopsphere",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm run server\" \"npm run dev:frontend\"",
+    "dev:frontend": "vite",
     "server": "node server/index.js",
-    "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
+    "dev:full": "npm run dev",
     "build": "vite build",
     "vercel-build": "npx prisma generate && vite build",
     "postinstall": "npx prisma generate",

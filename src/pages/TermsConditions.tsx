@@ -1,4 +1,4 @@
-﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const TermsConditions = () => {
   return (
@@ -12,7 +12,7 @@ const TermsConditions = () => {
                 <strong>Last Updated:</strong> November 3, 2025
               </p>
               <p className="text-foreground/80 leading-relaxed">
-                Welcome to FumesLane. By accessing and using our website and services, 
+                Welcome to SHOPSPHERE. By accessing and using our website and services, 
                 you agree to be bound by these Terms and Conditions. Please read them carefully.
               </p>
             </CardContent>
@@ -25,7 +25,7 @@ const TermsConditions = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 These terms govern your use of our website, online ordering system, and services provided by 
-                FumesLane, located at R. Agostinho LourenÃ§o 339, 1000-011 Lisboa, Portugal.
+                SHOPSPHERE, located at R. Agostinho Louren�o 339, 1000-011 Lisboa, Portugal.
               </p>
               <p>
                 By placing an order, you confirm that you are at least 18 years of age and have the legal 
@@ -44,7 +44,7 @@ const TermsConditions = () => {
                 We reserve the right to refuse or cancel any order at our discretion.
               </p>
               <p>
-                Prices displayed on our website are in Indian Rupees (â‚¹) and include applicable taxes unless otherwise stated. 
+                Prices displayed on our website are in Indian Rupees (₹) and include applicable taxes unless otherwise stated. 
                 Payment must be completed at the time of ordering for online orders.
               </p>
               <p>
@@ -119,7 +119,7 @@ const TermsConditions = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 All content on our website, including text, images, logos, and design elements, is the property 
-                of FumesLane or its licensors and is protected by copyright and trademark laws.
+                of SHOPSPHERE or its licensors and is protected by copyright and trademark laws.
               </p>
               <p>
                 You may not reproduce, distribute, modify, or create derivative works from any content without 
@@ -134,7 +134,7 @@ const TermsConditions = () => {
             </CardHeader>
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
-                To the fullest extent permitted by law, FumesLane shall not be liable for any indirect, 
+                To the fullest extent permitted by law, SHOPSPHERE shall not be liable for any indirect, 
                 incidental, special, or consequential damages arising from your use of our services.
               </p>
               <p>
@@ -181,9 +181,9 @@ const TermsConditions = () => {
                 If you have any questions about these Terms and Conditions, please contact us:
               </p>
               <ul className="list-none space-y-2 mt-4">
-                <li><strong>Address:</strong> R. Agostinho LourenÃ§o 339, 1000-011 Lisboa, Portugal</li>
+                <li><strong>Address:</strong> R. Agostinho Lourenço 339, 1000-011 Lisboa, Portugal</li>
                 <li><strong>Phone:</strong> +351 920 617 185</li>
-                <li><strong>Email:</strong> namastecurrylisboa@gmail.com</li>
+                <li><strong>Email:</strong> support@fumeslane.app</li>
               </ul>
             </CardContent>
           </Card>
@@ -194,4 +194,5 @@ const TermsConditions = () => {
 };
 
 export default TermsConditions;
+
 

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CartDrawer } from "./CartDrawer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ThemeToggle } from "./ThemeToggle";
+import { fetchJson } from "@/lib/apiConfig";
 
 // Store status type
 interface StoreStatus {
@@ -22,21 +23,15 @@ export const Navigation = () => {
   
   // Store status state
   const [storeStatus, setStoreStatus] = useState<StoreStatus | null>(null);
-  const [loadingStoreStatus, setLoadingStoreStatus] = useState(true);
 
   // Fetch store status
   useEffect(() => {
     const fetchStoreStatus = async () => {
       try {
-        const response = await fetch('/api/store-status');
-        if (response.ok) {
-          const data = await response.json();
-          setStoreStatus(data);
-        }
+        const data = await fetchJson<StoreStatus>('store-status');
+        setStoreStatus(data);
       } catch (err) {
         console.error('Failed to fetch store status:', err);
-      } finally {
-        setLoadingStoreStatus(false);
       }
     };
     
@@ -47,7 +42,9 @@ export const Navigation = () => {
 
   const navigation = [
     { name: t('nav.shop'), href: "/" },
-    // { name: t('nav.contact'), href: "/contact" },
+    { name: t('nav.ourStory'), href: "/our-story" },
+    { name: t('nav.gallery'), href: "/gallery" },
+    { name: t('nav.contact'), href: "/contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -57,14 +54,14 @@ export const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 md:h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3" aria-label="FumesLane Home">
+            <Link to="/" className="flex items-center space-x-3" aria-label="SHOPSPHERE Home">
               <img
                 src="/logo.png"
-                alt="FumesLane Logo"
+                alt="SHOPSPHERE Logo"
                 className="h-14 w-14 md:h-12 md:w-12 object-contain drop-shadow-md"
                 loading="eager"
               />
-              <span className="text-2xl font-bold hidden md:inline text-gray-900 dark:text-gray-500" style={{ fontFamily: 'Forum, serif' }}>FumesLane</span>
+              <span className="text-2xl font-bold hidden md:inline text-gray-900 dark:text-gray-500" style={{ fontFamily: 'Forum, serif' }}>SHOPSPHERE</span>
             </Link>
           </div>
           

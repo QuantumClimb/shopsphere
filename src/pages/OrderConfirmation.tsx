@@ -7,8 +7,7 @@ import { Order } from '@/types/order';
 import useCartStore from '@/stores/cartStore';
 import { MenuItemImage } from '@/components/MenuItemImage';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+import { fetchJson } from '@/lib/apiConfig';
 
 export default function OrderConfirmation() {
   const { t } = useLanguage();
@@ -33,14 +32,7 @@ export default function OrderConfirmation() {
     }
     
     console.log('OrderConfirmation: Fetching order from API...');
-    fetch(`${API_BASE_URL}/orders/number/${orderNumber}`)
-      .then(res => {
-        console.log('OrderConfirmation: Response status =', res.status);
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-        return res.json();
-      })
+    fetchJson<Order>(`orders/number/${orderNumber}`)
       .then(data => {
         console.log('OrderConfirmation: Order data received:', data);
         setOrder(data);
@@ -82,8 +74,8 @@ export default function OrderConfirmation() {
             <p className="text-center text-gray-600 mb-4">
               {t('orderConfirmation.orderNumber')}: {orderNumber || t('orderConfirmation.notProvided')}
             </p>
-            <Link to="/menu" className="block">
-              <Button className="w-full">{t('orderConfirmation.backToMenu')}</Button>
+            <Link to="/" className="block">
+              <Button className="w-full">{t('orderConfirmation.backToShop')}</Button>
             </Link>
           </CardContent>
         </Card>
@@ -156,11 +148,7 @@ export default function OrderConfirmation() {
                           <p className="font-medium">
                             {item.quantity} × {item.name}
                           </p>
-                          {item.spiceLevel !== undefined && item.spiceLevel !== null && (
-                            <span className="text-xs text-gray-500">
-                              {t('orderConfirmation.spiceLevel')}: {item.spiceLevel}%
-                            </span>
-                          )}
+                          {/* No spice levels for perfumes */}
                         </div>
                         <span className="font-semibold whitespace-nowrap ml-4">
                           ₹{(item.totalPrice / 100).toFixed(2)}
@@ -175,15 +163,15 @@ export default function OrderConfirmation() {
             <div className="border-t pt-4">
               <div className="flex justify-between mb-2">
                 <span>{t('orderConfirmation.subtotal')}:</span>
-                <span>€{order.subtotal.toFixed(2)}</span>
+                <span>₹{(order.subtotal / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>{t('orderConfirmation.deliveryFee')}:</span>
-                <span>€{order.deliveryFee.toFixed(2)}</span>
+                <span>₹{(order.deliveryFee / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-bold text-lg">
                 <span>{order.paymentStatus === 'SUCCEEDED' ? t('orderConfirmation.totalPaid') : t('orderConfirmation.total')}:</span>
-                <span>€{order.total.toFixed(2)}</span>
+                <span>₹{(order.total / 100).toFixed(2)}</span>
               </div>
             </div>
             
@@ -198,7 +186,7 @@ export default function OrderConfirmation() {
             </div>
             
             <div className="flex gap-3">
-              <Link to="/menu" className="flex-1">
+              <Link to="/" className="flex-1">
                 <Button variant="outline" className="w-full">
                   {t('orderConfirmation.continueShopping')}
                 </Button>

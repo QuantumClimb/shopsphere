@@ -108,7 +108,7 @@ async function createTestOrder() {
     console.log('\n📋 Order Details:');
     console.log('   Order Number:', orderNumber);
     console.log('   Customer:', 'juncando@gmail.com');
-    console.log('   Restaurant:', 'namastecurrylisboa@gmail.com');
+    console.log('   Restaurant:', 'support@fumeslane.app');
     console.log('   Total:', '€32.50');
     console.log('   Status:', 'PENDING (waiting for payment)');
     
@@ -125,7 +125,7 @@ async function createTestOrder() {
     console.log('\n📧 Expected Result:');
     console.log('   - Webhook will update order to CONFIRMED');
     console.log('   - Customer email sent to: juncando@gmail.com');
-    console.log('   - Owner notification sent to: namastecurrylisboa@gmail.com');
+    console.log('   - Owner notification sent to: support@fumeslane.app');
     
     console.log('\n⏱️  Check results in 1-2 minutes:');
     console.log('   - Run: node scripts/check-latest-order.mjs');
@@ -142,3 +142,4 @@ async function createTestOrder() {
 }
 
 createTestOrder();
+

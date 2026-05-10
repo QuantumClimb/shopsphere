@@ -3,12 +3,21 @@ export interface MenuItem {
   name: string;
   namePt?: string;
   category: string;
+  categoryId: number;
   price: number;
   description?: string;
   descriptionPt?: string;
-  dietary?: string[];
-  hasSpiceCustomization?: boolean;
-  imageUrl?: string;    // New field for image URL
+  imageUrl?: string;
+  brand?: string;
+  volume?: number;
+  concentration?: string;
+  gender?: string;
+  fragranceFamily?: string;
+  topNotes?: string;
+  middleNotes?: string;
+  baseNotes?: string;
+  stockQuantity?: number;
+  inStock?: boolean;
 }
 
 export interface MenuCategory {

@@ -17,6 +17,50 @@ export const getApiBaseUrl = (): string => {
   return '/api';
 };
 
+export const buildApiUrl = (path: string): string => {
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+
+  if (path.startsWith('/api/')) {
+    return path;
+  }
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${API_BASE_URL}${normalizedPath}`;
+};
+
+export async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(buildApiUrl(path), init);
+  const contentType = response.headers.get('content-type') || '';
+  const body = await response.text();
+  const isJson = contentType.includes('application/json');
+
+  if (!response.ok) {
+    if (isJson && body) {
+      const errorData = JSON.parse(body) as {
+        error?: string;
+        message?: string;
+        details?: string;
+      };
+      throw new Error(errorData.error || errorData.message || errorData.details || `${response.status} ${response.statusText}`);
+    }
+
+    throw new Error(body.trim() || `${response.status} ${response.statusText}`);
+  }
+
+  if (!isJson) {
+    const preview = body.trim();
+    if (preview.startsWith('<!DOCTYPE') || preview.startsWith('<html')) {
+      throw new Error('Received HTML instead of JSON from the API. Ensure the backend is running and the Vite proxy is enabled.');
+    }
+
+    throw new Error(`Expected JSON response but received ${contentType || 'an unknown content type'}`);
+  }
+
+  return JSON.parse(body) as T;
+}
+
 // Get the base server URL (for image URLs, etc.)
 export const getServerBaseUrl = (): string => {
   // Development: use the frontend origin with proxy

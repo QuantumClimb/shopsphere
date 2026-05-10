@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, ChefHat, Leaf, Users, Calendar, MapPin, Clock } from "lucide-react";
+import { Sparkles, FlaskConical, Leaf, Users, Calendar, MapPin, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSEO } from "../hooks/useSEO";
@@ -10,8 +10,8 @@ const OurStory = () => {
   const { t } = useLanguage();
   
   useSEO({
-    title: 'FumesLane | Luxury Perfumes & Fragrances Online',
-    description: 'Discover premium perfumes and fragrances at FumesLane. Shop designer scents, niche brands, and exclusive fragrances with fast delivery.',
+    title: 'SHOPSPHERE',
+    description: 'Discover the SHOPSPHERE brand, story, and product experience.',
     keywords: 'luxury perfume, designer fragrances, niche perfumes, buy perfume online, fragrance store, perfume shop',
     canonicalUrl: 'https://www.fumeslane.com/'
   });
@@ -23,7 +23,7 @@ const OurStory = () => {
       description: t('ourStory.heritage.description')
     },
     {
-      icon: <ChefHat className="w-12 h-12" />,
+      icon: <FlaskConical className="w-12 h-12" />,
       title: t('ourStory.excellence.title'),
       description: t('ourStory.excellence.description')
     },
@@ -107,7 +107,7 @@ const OurStory = () => {
           <div className="relative">
             <img
               src="/images/banners/OurStory1.png"
-              alt="Namaste Curry House Interior"
+              alt="SHOPSPHERE Story"
               className="rounded-lg shadow-2xl w-full h-96 object-cover neon-glow"
             />
           </div>
@@ -182,7 +182,7 @@ const OurStory = () => {
           <div className="relative">
             <img
               src="/images/banners/recommend.jpg"
-              alt="Namaste Curry House Experience"
+              alt="SHOPSPHERE Experience"
               className="rounded-lg shadow-2xl w-full h-96 object-cover neon-glow"
             />
           </div>
@@ -231,11 +231,11 @@ const OurStory = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              onClick={() => navigate("/reservation")}
+              onClick={() => navigate("/contact")}
               className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-3 neon-glow"
               size="lg"
             >
-              {t('common.bookTable')}
+              Contact Us
             </Button>
             <Button
               onClick={() => navigate("/menu")}
@@ -243,7 +243,7 @@ const OurStory = () => {
               className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-3"
               size="lg"
             >
-              {t('common.viewMenu')}
+              Browse Collection
             </Button>
           </div>
         </div>

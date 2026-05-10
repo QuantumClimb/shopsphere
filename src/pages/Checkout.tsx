@@ -12,12 +12,11 @@ import CheckoutStepIndicator from '@/components/checkout/CheckoutStepIndicator';
 import StripeCheckoutButton from '@/components/checkout/StripeCheckoutButton';
 import { CustomerInfo, DeliveryAddress, PaymentMethod } from '@/types/order';
 import { QuantityStepper } from '@/components/QuantityStepper';
-import { SpiceLevelDialog } from '@/components/SpiceLevelDialog';
-import { RepeatCustomizationDialog } from '@/components/RepeatCustomizationDialog';
 import { CartCustomization } from '@/types/cart';
 import { MenuItemImage } from '@/components/MenuItemImage';
 import { useNavigate } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
+import { fetchJson } from '@/lib/apiConfig';
 
 type CheckoutStep = 'cart' | 'customer' | 'address' | 'payment' | 'stripe-payment';
 
@@ -29,17 +28,16 @@ interface StoreStatus {
   reopenTime: string | null;
 }
 
-// Track last selected spice level for each menu item (outside component for persistence)
-const lastSpiceLevels = new Map<string, number>();
+// No spice levels for perfumes
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   
   useSEO({
-    title: 'Checkout | Namaste Curry House - Complete Your Order',
-    description: 'Complete your Indian food order with secure online payment. Enter delivery details and enjoy authentic Indian cuisine delivered to your door.',
-    canonicalUrl: 'https://www.namastecurry.house/checkout'
+    title: 'Checkout | SHOPSPHERE',
+    description: 'Complete your SHOPSPHERE order with secure checkout and delivery details.',
+    canonicalUrl: 'https://www.fumeslane.com/checkout'
   });
   
   const { 
@@ -57,27 +55,19 @@ export default function Checkout() {
   } = useCartStore();
   
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('cart');
-  const [isSpiceDialogOpen, setIsSpiceDialogOpen] = useState(false);
-  const [isRepeatDialogOpen, setIsRepeatDialogOpen] = useState(false);
   const [currentItemForCustomization, setCurrentItemForCustomization] = useState<string | null>(null);
   
   // Store status state
   const [storeStatus, setStoreStatus] = useState<StoreStatus | null>(null);
-  const [loadingStoreStatus, setLoadingStoreStatus] = useState(true);
 
   // Fetch store status
   useEffect(() => {
     const fetchStoreStatus = async () => {
       try {
-        const response = await fetch('/api/store-status');
-        if (response.ok) {
-          const data = await response.json();
-          setStoreStatus(data);
-        }
+        const data = await fetchJson<StoreStatus>('store-status');
+        setStoreStatus(data);
       } catch (err) {
         console.error('Failed to fetch store status:', err);
-      } finally {
-        setLoadingStoreStatus(false);
       }
     };
     
@@ -89,24 +79,11 @@ export default function Checkout() {
   const deliveryFee = 2.50; // Fixed for now
   const grandTotal = total + deliveryFee;
   
-  const handleIncrement = (cartItemId: string, itemMenuId: string, hasSpiceCustomization: boolean) => {
-    if (hasSpiceCustomization === true) {
-      const lastSpiceLevel = lastSpiceLevels.get(itemMenuId);
-      if (lastSpiceLevel !== undefined) {
-        // Show repeat dialog
-        setCurrentItemForCustomization(cartItemId);
-        setIsRepeatDialogOpen(true);
-      } else {
-        // No previous spice level, show spice dialog
-        setCurrentItemForCustomization(cartItemId);
-        setIsSpiceDialogOpen(true);
-      }
-    } else {
-      // No customization - directly increment
-      const currentCartItem = items.find(ci => ci.id === cartItemId);
-      if (currentCartItem) {
-        updateQuantity(cartItemId, currentCartItem.quantity + 1);
-      }
+  const handleIncrement = (cartItemId: string) => {
+    // No customization - directly increment
+    const currentCartItem = items.find(ci => ci.id === cartItemId);
+    if (currentCartItem) {
+      updateQuantity(cartItemId, currentCartItem.quantity + 1);
     }
   };
 
@@ -122,46 +99,7 @@ export default function Checkout() {
     }
   };
 
-  const handleSpiceLevelConfirm = (spiceLevel: number) => {
-    if (currentItemForCustomization) {
-      const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-      if (cartItem) {
-        // Store the spice level for this menu item
-        lastSpiceLevels.set(cartItem.menuItem.id, spiceLevel);
-        
-        // Add item to cart with spice level
-        const customization: CartCustomization = {
-          spiceLevel
-        };
-        addItem(cartItem.menuItem, 1, customization);
-      }
-    }
-    setCurrentItemForCustomization(null);
-  };
-
-  const handleRepeatCustomization = () => {
-    if (currentItemForCustomization) {
-      const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-      if (cartItem) {
-        // Use the same spice level as before
-        const lastSpiceLevel = lastSpiceLevels.get(cartItem.menuItem.id);
-        if (lastSpiceLevel !== undefined) {
-          const customization: CartCustomization = {
-            spiceLevel: lastSpiceLevel
-          };
-          addItem(cartItem.menuItem, 1, customization);
-        }
-      }
-    }
-    setIsRepeatDialogOpen(false);
-    setCurrentItemForCustomization(null);
-  };
-
-  const handleNewCustomization = () => {
-    // Close repeat dialog and open spice dialog for new selection
-    setIsRepeatDialogOpen(false);
-    setIsSpiceDialogOpen(true);
-  };
+  // No spice customization logic needed for perfumes
   
   const handleCustomerInfoSubmit = (info: CustomerInfo) => {
     setCustomerInfo(info);
@@ -190,14 +128,7 @@ export default function Checkout() {
       .map((item) => {
         let custom = '';
         if (item.customization) {
-          const { spiceLevel, specialInstructions, extras } = item.customization;
-          const parts = [];
-          if (spiceLevel) parts.push(`Spice: ${spiceLevel}`);
-          if (specialInstructions) parts.push(`Note: ${specialInstructions}`);
-          if (extras?.length) parts.push(`Extras: ${extras.join('/')}`);
-          if (parts.length) custom = ` (${parts.join(', ')})`;
-        }
-        return `${item.quantity} x ${item.menuItem.name}${custom}`;
+          return `${item.quantity} x ${item.menuItem.name}`;
       })
       .join(', ');
     
@@ -210,9 +141,9 @@ export default function Checkout() {
       `Email: ${customerInfo.email}\n` +
       `Delivery Address: ${addressStr}\n\n` +
       `Order: ${itemList}\n\n` +
-      `Subtotal: €${total.toFixed(2)}\n` +
-      `Delivery Fee: €${deliveryFee.toFixed(2)}\n` +
-      `Total: €${grandTotal.toFixed(2)}`
+      `Subtotal: ₹${(total / 100).toFixed(2)}\n` +
+      `Delivery Fee: ₹${(deliveryFee / 100).toFixed(2)}\n` +
+      `Total: ₹${(grandTotal / 100).toFixed(2)}`
     );
     
     window.open(`https://wa.me/919789909362?text=${message}`, '_blank');
@@ -223,7 +154,7 @@ export default function Checkout() {
       <h1 className="text-3xl font-bold mb-6">{t('checkout.title')}</h1>
       
       {/* Store Closed Alert */}
-      {!loadingStoreStatus && isStoreClosed && (
+      {isStoreClosed && (
         <Alert variant="destructive" className="mb-6">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
@@ -235,12 +166,12 @@ export default function Checkout() {
               {t('checkout.storeClosedMessage')}
             </p>
             <Button 
-              onClick={() => navigate('/menu')}
+              onClick={() => navigate('/')}
               variant="outline"
               size="sm"
               className="mt-3"
             >
-              {t('checkout.returnToMenu')}
+              {t('checkout.returnToShop')}
             </Button>
           </AlertDescription>
         </Alert>
@@ -272,23 +203,16 @@ export default function Checkout() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-medium">{item.menuItem.name}</span>
-                          {item.menuItem.hasSpiceCustomization && (
-                            <span className="text-sm">🌶️</span>
-                          )}
                         </div>
-                        {item.customization?.spiceLevel !== undefined && (
-                          <span className="text-sm text-gray-600 block mb-2">
-                            {t('checkout.spiceLevel')}: {item.customization.spiceLevel}%
-                          </span>
-                        )}
+                        {/* No spice level for perfumes */}
                         <div className="flex items-center justify-between">
                           <QuantityStepper
                             quantity={item.quantity}
-                            onIncrement={() => handleIncrement(item.id, item.menuItem.id, item.menuItem.hasSpiceCustomization || false)}
+                            onIncrement={() => handleIncrement(item.id)}
                             onDecrement={() => handleDecrement(item.id)}
                           />
                           <span className="font-medium min-w-[60px] text-right">
-                            €{item.totalPrice.toFixed(2)}
+                            ₹{(item.totalPrice / 100).toFixed(2)}
                           </span>
                         </div>
                       </div>
@@ -363,33 +287,7 @@ export default function Checkout() {
         />
       )}
       
-      {/* Spice Customization Dialogs */}
-      {currentItemForCustomization && isSpiceDialogOpen && (() => {
-        const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-        return (
-          <SpiceLevelDialog
-            open={isSpiceDialogOpen}
-            onOpenChange={setIsSpiceDialogOpen}
-            onConfirm={handleSpiceLevelConfirm}
-            itemName={cartItem?.menuItem.name || ''}
-          />
-        );
-      })()}
-      
-      {currentItemForCustomization && isRepeatDialogOpen && (() => {
-        const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-        const lastSpiceLevel = cartItem ? lastSpiceLevels.get(cartItem.menuItem.id) : undefined;
-        return (
-          <RepeatCustomizationDialog
-            open={isRepeatDialogOpen}
-            onOpenChange={setIsRepeatDialogOpen}
-            onRepeat={handleRepeatCustomization}
-            onCustomize={handleNewCustomization}
-            itemName={cartItem?.menuItem.name || ''}
-            previousSpiceLevel={lastSpiceLevel || 0}
-          />
-        );
-      })()}
+      {/* Customization dialogs removed */}
     </div>
   );
 }

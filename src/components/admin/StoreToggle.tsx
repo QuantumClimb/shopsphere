@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Store, Clock, AlertCircle, CheckCircle } from 'lucide-react';
+import { fetchJson } from '@/lib/apiConfig';
 
 interface StoreStatus {
   id: number;
@@ -41,9 +42,7 @@ export default function StoreToggle({ onClose }: StoreToggleProps) {
   const fetchStoreStatus = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/store-status');
-      if (!response.ok) throw new Error('Failed to fetch store status');
-      const data = await response.json();
+      const data = await fetchJson<StoreStatus>('store-status');
       setStoreStatus(data);
       setIsOpen(data.isOpen);
       setClosedMessage(data.closedMessage || '');
@@ -62,7 +61,7 @@ export default function StoreToggle({ onClose }: StoreToggleProps) {
       setSaving(true);
       setError('');
       
-      const response = await fetch('/api/admin/store-status', {
+      const updatedStatus = await fetchJson<StoreStatus>('admin/store-status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,13 +71,6 @@ export default function StoreToggle({ onClose }: StoreToggleProps) {
           updatedBy: 'admin'
         }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update store status');
-      }
-
-      const updatedStatus = await response.json();
       setStoreStatus(updatedStatus);
       setSuccess(`Store status updated: ${isOpen ? 'OPEN' : 'CLOSED'}`);
       setTimeout(() => setSuccess(''), 3000);

@@ -13,8 +13,8 @@ const Contact = () => {
   const { t } = useLanguage();
   
   useSEO({
-    title: 'Contact Us | FumesLane - Get in Touch',
-    description: 'Contact FumesLane for perfume inquiries, orders, or customer support. Email us for premium fragrance assistance.',
+    title: 'Contact Us | SHOPSPHERE',
+    description: 'Contact SHOPSPHERE for product inquiries, orders, or customer support.',
     keywords: 'contact perfume store, fragrance inquiries, perfume customer support, perfume shop contact',
     canonicalUrl: 'https://www.fumeslane.com/contact'
   });
@@ -78,7 +78,7 @@ const Contact = () => {
                     const message = encodeURIComponent(
                       t('contact.whatsappMessage')
                     );
-                    window.open(`https://wa.me/351920617185?text=${message}`, "_blank");
+                    window.open(`https://wa.me/919789909362?text=${message}`, "_blank");
                   }}
                   className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-3 text-lg neon-glow"
                 >
@@ -93,11 +93,11 @@ const Contact = () => {
               <CardContent className="p-8 text-center">
                 <h3 className="text-2xl font-bold mb-6 text-foreground">{t('contact.followUs')}</h3>
                 <div className="flex space-x-8 justify-center">
-                  <a href="https://www.facebook.com/profile.php?id=61562044322831" target="_blank" rel="noopener noreferrer" 
+                  <a href="https://www.facebook.com/fumeslane" target="_blank" rel="noopener noreferrer" 
                      className="transition-all hover:opacity-80 hover:scale-110 p-3" style={{ color: '#D4AF37' }}>
                     <Facebook className="w-12 h-12" />
                   </a>
-                  <a href="https://www.instagram.com/namastecurry.lisbon/" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.instagram.com/fumeslane/" target="_blank" rel="noopener noreferrer"
                      className="transition-all hover:opacity-80 hover:scale-110 p-3" style={{ color: '#D4AF37' }}>
                     <Instagram className="w-12 h-12" />
                   </a>
@@ -112,37 +112,19 @@ const Contact = () => {
   <section className="py-20 px-4 bg-primary/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-foreground">Find Us</h2>
+            <h2 className="text-4xl font-bold mb-4 text-foreground">Visit Our Showroom</h2>
             <p className="text-xl text-foreground/80">
-              Visit us in Lisboa for an authentic Indian dining experience
+              Experience our exclusive collection of fragrances in person
             </p>
           </div>
           
           <Card className="bg-card/50 backdrop-blur-sm border-primary/20 neon-glow overflow-hidden">
             <CardContent className="p-0">
-              <div className="w-full h-96 relative">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d49788.93729862002!2d-9.1323749!3d38.7451546!3m2!1i1024!2i768!4f13.1!2m1!1sNamaste%20curry%20House%20lisboa!5e0!3m2!1sen!2sin!4v1762746728998!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Namaste Curry House Location"
-                  className="w-full h-full"
-                ></iframe>
-                <div className="absolute bottom-4 right-4">
-                  <a
-                    href="https://www.google.com/maps/search/?api=1&query=R.+Agostinho+Lourenço+339,+1000-011+Lisboa,+Portugal"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      Open in Maps
-                    </Button>
-                  </a>
+              <div className="w-full h-96 relative bg-primary/5 flex items-center justify-center">
+                <div className="text-center p-8">
+                  <MapPin className="w-16 h-16 text-primary/20 mx-auto mb-4" />
+                  <p className="text-foreground/60 text-lg">Online Exclusive Store</p>
+                  <p className="text-foreground/40">Ships from Chennai, India</p>
                 </div>
               </div>
             </CardContent>

@@ -7,8 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { CustomerInfo, DeliveryAddress } from '@/types/order';
 import useCartStore from '@/stores/cartStore';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://namastecurryhouse.vercel.app/api';
+import { buildApiUrl } from '@/lib/apiConfig';
 
 interface StripePaymentFormProps {
   orderItems: any[];
@@ -45,7 +44,7 @@ export default function StripePaymentForm({
     
     try {
       // Create payment intent
-      const response = await fetch(`${API_BASE_URL}/stripe/create-payment-intent`, {
+      const response = await fetch(buildApiUrl('stripe/create-payment-intent'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

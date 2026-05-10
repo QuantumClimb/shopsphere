@@ -48,7 +48,7 @@ const CustomerSupport = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xl font-semibold text-primary mb-2">namastecurrylisboa@gmail.com</p>
+                <p className="text-xl font-semibold text-primary mb-2">support@fumeslane.app</p>
                 <p className="text-foreground/70">
                   {t('customerSupport.emailDescription')}
                 </p>
@@ -127,3 +127,4 @@ const CustomerSupport = () => {
 };
 
 export default CustomerSupport;
+

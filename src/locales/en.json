@@ -10,8 +10,7 @@
   "common": {
     "orderNow": "Order Now",
     "learnMore": "Learn More",
-    "bookTable": "Book a Table",
-    "viewMenu": "View Full Menu",
+    "viewCollection": "View Collection",
     "submit": "Submit",
     "cancel": "Cancel",
     "save": "Save",
@@ -27,81 +26,81 @@
     "goHome": "Go Home"
   },
   "ourStory": {
-    "title": "Welcome to Namaste Curry House",
-    "subtitle": "Experience the rich traditions of Indian cuisine with authentic spices, traditional recipes, and warm hospitality",
-    "storyTitle": "Where It All Began",
-    "story1": "Namaste Curry House was born from a simple vision: to create a space where authentic Indian flavors and traditional hospitality come together to create memorable dining experiences. We've become a beloved destination for those seeking genuine Indian cuisine.",
-    "story2": "Our name, Namaste Curry House, represents the essence of welcome and respect – a philosophy that permeates every aspect of our establishment. From the moment you step through our doors, you're transported into a world where every dish tells a story of India's rich culinary heritage.",
-    "story3": "We believe that great food isn't just about taste – it's about bringing people together, sharing traditions, and creating connections through the universal language of authentic Indian cuisine.",
-    "experienceTitle": "The Namaste Experience",
-    "experienceSubtitle": "Immerse yourself in authentic Indian flavors, traditional hospitality, and the warmth of our welcoming atmosphere",
+    "title": "Welcome to ShopSphere",
+    "subtitle": "Discover a world of luxury fragrances, curated for elegance and individual expression.",
+    "storyTitle": "Our Fragrance Journey",
+    "story1": "ShopSphere was born from a passion for scents that tell a story. We believe a fragrance is more than just a smell; it's an invisible accessory that defines your presence.",
+    "story2": "Our collection is carefully curated from around the world, featuring niche houses and designer masterpieces that evoke emotion and memory.",
+    "story3": "We are dedicated to helping you find your signature scent, providing an immersive experience that celebrates the art of perfumery.",
+    "experienceTitle": "The SHOPSPHERE Experience",
+    "experienceSubtitle": "Explore curated products, seamless shopping, and a customer experience designed around clarity and convenience.",
     "traditionTitle": "Tradition Perfected",
-    "traditionText1": "Namaste Curry House isn't just a restaurant – it's a journey through the rich culinary traditions of India. Our master chefs use authentic recipes and traditional cooking methods to bring you the true taste of India.",
-    "traditionText2": "From aromatic biryanis to flavorful curries, every dish at Namaste Curry House is crafted with love and respect for Indian culinary heritage.",
+    "traditionText1": "SHOPSPHERE is built around careful product selection, dependable quality, and a modern buying experience that feels easy from browse to checkout.",
+    "traditionText2": "From discovery to delivery, every part of SHOPSPHERE is designed to help customers shop with confidence.",
     "visionTitle": "Our Vision",
-    "visionText": "To be more than just a restaurant – to be a bridge between cultures through authentic Indian cuisine. We're not just serving food; we're sharing traditions, stories, and the warmth of Indian hospitality with every meal.",
-    "visionQuote": "Every meal at Namaste Curry House is a celebration of authentic flavors, traditional recipes, and the joy of sharing good food with loved ones.",
-    "visionClosing": "Join us as we continue to bring the authentic taste of India to your table, one dish at a time.",
-    "ctaTitle": "Experience Authentic India",
-    "ctaSubtitle": "Join us for an unforgettable dining experience where traditional recipes meet warm hospitality",
+    "visionText": "To be more than just a store - to become a trusted destination where customers discover products they love through a polished, reliable shopping experience.",
+    "visionQuote": "Every order at SHOPSPHERE should feel simple, reliable, and worth coming back for.",
+    "visionClosing": "Join us as we continue to build a smarter and more enjoyable way to shop.",
+    "ctaTitle": "Discover SHOPSPHERE",
+    "ctaSubtitle": "Explore a shopping experience built around quality, trust, and convenience.",
     "heritage": {
-      "title": "Traditional Heritage",
-      "description": "Authentic recipes passed down through generations, bringing the true flavors of India to your table"
+      "title": "Curated Heritage",
+      "description": "Celebrating the timeless traditions of global perfumery, from Grasse to the Orient."
     },
     "excellence": {
-      "title": "Culinary Excellence",
-      "description": "Our master chefs use traditional cooking techniques and authentic spices to create unforgettable Indian dining experiences"
+      "title": "Olfactory Excellence",
+      "description": "Our experts curate each bottle based on complexity, longevity, and the unique story behind the fragrance."
     },
     "ingredients": {
-      "title": "Fresh Ingredients",
-      "description": "Premium quality spices, fresh vegetables, and authentic ingredients sourced to maintain traditional flavors"
+      "title": "Purest Ingredients",
+      "description": "From natural absolutes to modern aromachemicals, we focus on fragrances crafted with the highest quality materials."
     },
     "hospitality": {
-      "title": "Warm Hospitality",
-      "description": "A welcoming space where families and friends gather to enjoy authentic Indian cuisine and traditional hospitality"
+      "title": "Personalized Scenting",
+      "description": "We offer one-on-one consultations to help you navigate our collection and discover your olfactory identity."
     },
     "valuesTitle": "What Drives Us",
-    "valuesSubtitle": "Four pillars that define the Namaste Curry House experience and our commitment to authentic Indian cuisine",
+    "valuesSubtitle": "Four pillars that define the SHOPSPHERE experience and our commitment to quality shopping.",
     "features": {
       "recipes": {
-        "title": "Traditional Recipes",
-        "description": "Authentic Indian dishes prepared using time-honored family recipes and techniques"
+        "title": "Expert Curation",
+        "description": "Every fragrance in our collection is handpicked for its unique character and quality."
       },
       "fresh": {
-        "title": "Fresh Ingredients",
-        "description": "Premium spices and fresh ingredients sourced to maintain authentic flavors"
+        "title": "Global Reach",
+        "description": "Sourcing the most sought-after scents from independent labs and historic houses worldwide."
       },
       "dining": {
-        "title": "All Day Dining",
-        "description": "From lunch to dinner, enjoy our full menu of Indian specialties"
+        "title": "Signature Scents",
+        "description": "Helping you find the perfect fragrance for every occasion, season, and mood."
       },
       "family": {
-        "title": "Family Friendly",
-        "description": "Welcoming atmosphere perfect for families and group celebrations"
+        "title": "Authenticity Guaranteed",
+        "description": "We deal only in 100% authentic products, sourced directly from manufacturers or authorized distributors."
       }
     }
   },
   "menu": {
-    "title": "Our Menu",
-    "subtitle": "Discover our delicious selection of authentic Indian dishes",
+    "title": "Fragrance Collection",
+    "subtitle": "Discover our exquisite selection of designer and niche perfumes",
     "allCategories": "All Categories",
     "addToCart": "Add to Cart",
-    "spiceLevel": "Spice Level",
-    "selectSpice": "Select spice level",
+    "concentration": "Concentration",
+    "selectConcentration": "Select concentration",
     "quantity": "Quantity",
     "price": "Price",
-    "dietary": "Dietary",
-    "vegetarian": "Vegetarian",
-    "vegan": "Vegan",
-    "glutenFree": "Gluten Free",
-    "searchPlaceholder": "Search menu items..."
+    "volume": "Volume",
+    "male": "For Men",
+    "female": "For Women",
+    "unisex": "Unisex",
+    "searchPlaceholder": "Search fragrances..."
   },
   "cart": {
     "title": "Shopping Cart",
     "items": "items",
     "clear": "Clear",
     "emptyCart": "Your cart is empty",
-    "emptyCartMessage": "Add some delicious items from our menu!",
+    "emptyCartMessage": "Find your next signature scent in our collection!",
     "subtotal": "Subtotal",
     "deliveryFee": "Delivery Fee",
     "total": "Total",
@@ -121,9 +120,9 @@
     "storeClosed": "Store is currently closed",
     "storeClosedMessage": "Checkout is disabled while the store is closed. You can browse the menu and come back later.",
     "storeClosedCheckoutDisabled": "Store Closed - Checkout Disabled",
-    "returnToMenu": "Return to Menu",
+    "returnToShop": "Return to Shop",
     "yourOrder": "Your Order",
-    "spiceLevel": "Spice Level",
+    "concentration": "Concentration",
     "continueToCustomerInfo": "Continue to Customer Info",
     "deliveryInfo": "Delivery Information",
     "paymentMethod": "Payment Method",
@@ -148,7 +147,7 @@
   },
   "reservation": {
     "title": "Reservations",
-    "subtitle": "Secure your spot for an authentic Indian dining experience at Namaste Curry House",
+    "subtitle": "Secure your spot for the SHOPSPHERE experience",
     "bookTable": "Book Your Table",
     "openHours": "Open Monday - Saturday: 11:00 AM - 10:00 PM",
     "closedSundays": "Closed Sundays",
@@ -170,8 +169,8 @@
     "people": "people",
     "on": "on",
     "at": "at",
-    "whatsappBooking": "Hi Namaste Curry House! I'd like to make a reservation for",
-    "whatsappWaitlist": "Hi Namaste Curry House! I'd like to join the waitlist for",
+    "whatsappBooking": "Hi SHOPSPHERE! I'd like to make a reservation for",
+    "whatsappWaitlist": "Hi SHOPSPHERE! I'd like to join the waitlist for",
     "confirmAvailability": "Please confirm availability.",
     "notifyAvailable": "Please notify me if a table becomes available.",
     "name": "Your Name",
@@ -192,7 +191,7 @@
     "scanReviews": "Scan for Reviews",
     "quickContact": "Quick Contact",
     "quickContactDesc": "Have a question? Contact us directly via WhatsApp for the fastest response about reservations, menu items, or catering.",
-    "whatsappMessage": "Hi Namaste Curry House! I have a question about your Indian restaurant. Could you please assist me?",
+    "whatsappMessage": "Hi SHOPSPHERE! I have a question about your products. Could you please assist me?",
     "whatsappUs": "WhatsApp Us",
     "followUs": "Follow Us",
     "address": "Address",
@@ -213,7 +212,7 @@
   "customerSupport": {
     "title": "Customer Support",
     "howCanWeHelp": "How Can We Help You?",
-    "helpDescription": "At Namaste Curry House, we're committed to providing excellent customer service. Whether you have questions about our menu, need help with an order, or want to share feedback, our team is here to assist you.",
+    "helpDescription": "At SHOPSPHERE, we're committed to providing excellent customer service. Whether you have questions about our catalog, need help with an order, or want to share feedback, our team is here to assist you.",
     "callUs": "Call Us",
     "callDescription": "Available during business hours for immediate assistance with orders, reservations, or inquiries.",
     "emailUs": "Email Us",
@@ -225,25 +224,24 @@
     "emailSupport": "Email Support:",
     "emailSupportHours": "24/7 (Response within 24 hours)",
     "faq": "Frequently Asked Questions",
-    "faqQuestion1": "How do I place an order?",
-    "faqAnswer1": "You can place an order directly through our website by browsing the menu, adding items to your cart, and proceeding to checkout. You can also call us at +351 920 617 185 for phone orders.",
-    "faqQuestion2": "What are your delivery areas?",
-    "faqAnswer2": "We deliver within Lisboa and surrounding areas. Delivery availability and fees may vary based on location.",
-    "faqQuestion3": "Do you accommodate dietary restrictions?",
-    "faqAnswer3": "Yes! We offer vegetarian, vegan, and gluten-free options. Please inform us of any allergies or dietary requirements when placing your order, and we'll do our best to accommodate you.",
-    "faqQuestion4": "Can I modify my order after placing it?",
-    "faqAnswer4": "Please contact us immediately at +351 920 617 185 if you need to modify your order. We'll do our best to accommodate changes if the order hasn't been prepared yet.",
-    "faqQuestion5": "What payment methods do you accept?",
-    "faqAnswer5": "We accept all major credit and debit cards through our secure online payment system, as well as cash on delivery."
+    "faqQuestion1": "Are your fragrances authentic?",
+    "faqAnswer1": "Absolutely. We guarantee 100% authenticity for every product in our catalog. We source directly from official distributors and reputable houses.",
+    "faqQuestion2": "What is the difference between EDP and EDT?",
+    "faqAnswer2": "Eau de Parfum (EDP) has a higher concentration of fragrance oils (15-20%) and usually lasts longer, while Eau de Toilette (EDT) is lighter (5-15%) and better for daily wear.",
+    "faqQuestion3": "How should I store my perfume?",
+    "faqAnswer3": "Keep your bottles in a cool, dark place away from direct sunlight and humidity to preserve the integrity of the scent.",
+    "faqQuestion4": "Can I sample a fragrance before buying?",
+    "faqAnswer4": "Currently, we sell full bottles, but we are working on a discovery set program. Stay tuned for updates!",
+    "faqQuestion5": "Do you ship internationally?",
+    "faqAnswer5": "We currently ship across India. Check our shipping policy for details."
   },
   "footer": {
     "about": "About",
-    "aboutText": "Discover luxury perfumes and fragrances at FumesLane. Curated scents for every personality.",
+    "aboutText": "Discover curated products at SHOPSPHERE. A cleaner, smarter way to shop online.",
     "quickLinks": "Quick Links",
     "ourStory": "Our Story",
-    "menu": "Menu",
+    "shop": "Shop",
     "gallery": "Gallery",
-    "reservation": "Reservation",
     "contact": "Contact",
     "legal": "Legal",
     "privacy": "Privacy Policy",
@@ -254,9 +252,9 @@
     "phone": "Phone",
     "email": "Email",
     "hours": "Hours",
-    "mondayToSaturday": "Monday - Saturday: 12:00 PM - 10:00 PM",
+    "mondayToSaturday": "Monday - Saturday: 10:00 AM - 08:00 PM",
     "sundayClosed": "Sunday: Closed",
-    "copyright": "© 2025 Namaste Curry House. All rights reserved.",
+    "copyright": "© 2025 SHOPSPHERE. All rights reserved.",
     "poweredBy": "POWERED BY QUANTUM CLIMB"
   },
   "legal": {
@@ -278,14 +276,14 @@
     "orderNumber": "Order Number",
     "status": "Status",
     "placed": "Order Placed",
-    "preparing": "Preparing",
-    "ready": "Ready for Delivery",
+    "processing": "Processing",
+    "shipped": "Shipped",
     "delivered": "Delivered",
     "cancelled": "Cancelled"
   },
   "orderConfirmation": {
     "title": "Order Confirmed!",
-    "thankYou": "Thank you for your order. We'll start preparing it right away!",
+    "thankYou": "Thank you for your order. We are preparing your fragrances for shipment!",
     "orderNumber": "Order Number",
     "deliveryAddress": "Delivery Address",
     "estimatedDelivery": "Estimated Delivery",
@@ -303,6 +301,6 @@
     "loading": "Loading your order...",
     "orderNotFound": "Order not found",
     "notProvided": "Not provided",
-    "backToMenu": "Back to Menu"
+    "backToShop": "Back to Shop"
   }
 }

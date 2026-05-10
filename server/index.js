@@ -1,4 +1,4 @@
-﻿// server/index.js - Express API server for menu data
+// server/index.js - Express API server for ShopSphere (FumesLane)
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
@@ -21,9 +21,9 @@ const prisma = new PrismaClient({
   log: ['warn', 'error']
 });
 
-// Restaurant contact info
+// ShopSphere contact info
 const RESTAURANT_WHATSAPP = process.env.RESTAURANT_WHATSAPP || '+351920617185';
-const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'namastecurrylisboa@gmail.com';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@fumeslane.app';
 
 // RESEND TEST MODE: Send all emails to account owner until domain is verified
 // Set to true to test email flow, false for production with verified domain
@@ -260,7 +260,7 @@ app.get('/api/menu', async (req, res) => {
           return res.json(JSON.parse(json));
         }
       } catch (e) {
-        console.warn('Fallback menu load failed:', e.message);
+        console.warn('Fallback inventory load failed:', e.message);
       }
       return res.json([]);
     }
@@ -295,8 +295,6 @@ app.get('/api/menu', async (req, res) => {
         baseNotes: item.baseNotes,
         stockQuantity: item.stockQuantity,
         inStock: item.inStock,
-        dietary: [], // No dietary for perfumes
-        hasSpiceCustomization: false, // No spice customization for perfumes
         // Use imageUrl from database (static file path)
         imageUrl: item.imageUrl
       }))
@@ -347,7 +345,17 @@ app.get('/api/menu/category/:categoryName', async (req, res) => {
       dietary: item.dietary ? item.dietary.split(',').filter(d => d.trim()) : [],
       hasSpiceCustomization: item.hasSpiceCustomization || false,
       // Use imageUrl from database (static file path)
-      imageUrl: item.imageUrl
+      imageUrl: item.imageUrl,
+      brand: item.brand,
+      volume: item.volume,
+      concentration: item.concentration,
+      gender: item.gender,
+      fragranceFamily: item.fragranceFamily,
+      topNotes: item.topNotes,
+      middleNotes: item.middleNotes,
+      baseNotes: item.baseNotes,
+      stockQuantity: item.stockQuantity,
+      inStock: item.inStock
     }));
 
     res.json({
@@ -418,7 +426,17 @@ app.get('/api/menu/search', async (req, res) => {
       dietary: item.dietary ? item.dietary.split(',').filter(d => d.trim()) : [],
       hasSpiceCustomization: item.hasSpiceCustomization || false,
       category: item.category.name,
-      imageUrl: item.imageUrl
+      imageUrl: item.imageUrl,
+      brand: item.brand,
+      volume: item.volume,
+      concentration: item.concentration,
+      gender: item.gender,
+      fragranceFamily: item.fragranceFamily,
+      topNotes: item.topNotes,
+      middleNotes: item.middleNotes,
+      baseNotes: item.baseNotes,
+      stockQuantity: item.stockQuantity,
+      inStock: item.inStock
     }));
 
     res.json(searchResults);
@@ -595,7 +613,12 @@ app.post('/api/admin/menu-items', async (req, res) => {
     if (!(await ensureDbConnection())) {
       return res.status(503).json({ error: 'Database unavailable' });
     }
-    const { name, namePt, description, descriptionPt, price, dietary, hasSpiceCustomization, categoryId, imageUrl } = req.body;
+    const { 
+      name, namePt, description, descriptionPt, price, 
+      categoryId, imageUrl, brand, volume, concentration, 
+      gender, fragranceFamily, topNotes, middleNotes, baseNotes,
+      stockQuantity, inStock 
+    } = req.body;
     
     const newItem = await prisma.product.create({
       data: {
@@ -604,8 +627,16 @@ app.post('/api/admin/menu-items', async (req, res) => {
         description,
         descriptionPt: descriptionPt || null,
         price: Number.parseFloat(price),
-        dietary: Array.isArray(dietary) ? dietary.join(',') : dietary || '',
-        hasSpiceCustomization: hasSpiceCustomization || false,
+        brand: brand || null,
+        volume: volume ? Number.parseFloat(volume) : null,
+        concentration: concentration || null,
+        gender: gender || null,
+        fragranceFamily: fragranceFamily || null,
+        topNotes: topNotes || null,
+        middleNotes: middleNotes || null,
+        baseNotes: baseNotes || null,
+        stockQuantity: stockQuantity ? Number.parseInt(stockQuantity) : 0,
+        inStock: inStock !== undefined ? inStock : true,
         categoryId: Number.parseInt(categoryId),
         imageUrl: imageUrl || null,
         imageData: null,
@@ -624,8 +655,16 @@ app.post('/api/admin/menu-items', async (req, res) => {
       description: newItem.description,
       descriptionPt: newItem.descriptionPt,
       price: newItem.price,
-      dietary: newItem.dietary ? newItem.dietary.split(',').filter(d => d.trim()) : [],
-      hasSpiceCustomization: newItem.hasSpiceCustomization,
+      brand: newItem.brand,
+      volume: newItem.volume,
+      concentration: newItem.concentration,
+      gender: newItem.gender,
+      fragranceFamily: newItem.fragranceFamily,
+      topNotes: newItem.topNotes,
+      middleNotes: newItem.middleNotes,
+      baseNotes: newItem.baseNotes,
+      stockQuantity: newItem.stockQuantity,
+      inStock: newItem.inStock,
       categoryId: newItem.categoryId,
       category: newItem.category.name,
       imageUrl: newItem.imageUrl
@@ -643,7 +682,12 @@ app.put('/api/admin/menu-items/:id', async (req, res) => {
       return res.status(503).json({ error: 'Database unavailable' });
     }
     const { id } = req.params;
-    const { name, namePt, description, descriptionPt, price, dietary, hasSpiceCustomization, categoryId, imageUrl } = req.body;
+    const { 
+      name, namePt, description, descriptionPt, price, 
+      categoryId, imageUrl, brand, volume, concentration, 
+      gender, fragranceFamily, topNotes, middleNotes, baseNotes,
+      stockQuantity, inStock 
+    } = req.body;
     
     const updatedItem = await prisma.product.update({
       where: { id: Number.parseInt(id) },
@@ -653,8 +697,16 @@ app.put('/api/admin/menu-items/:id', async (req, res) => {
         description,
         descriptionPt: descriptionPt || null,
         price: Number.parseFloat(price),
-        dietary: Array.isArray(dietary) ? dietary.join(',') : dietary || '',
-        hasSpiceCustomization: hasSpiceCustomization || false,
+        brand: brand || null,
+        volume: volume ? Number.parseFloat(volume) : null,
+        concentration: concentration || null,
+        gender: gender || null,
+        fragranceFamily: fragranceFamily || null,
+        topNotes: topNotes || null,
+        middleNotes: middleNotes || null,
+        baseNotes: baseNotes || null,
+        stockQuantity: stockQuantity ? Number.parseInt(stockQuantity) : 0,
+        inStock: inStock !== undefined ? inStock : true,
         categoryId: Number.parseInt(categoryId),
         imageUrl: imageUrl || null,
         imageData: null,
@@ -673,8 +725,16 @@ app.put('/api/admin/menu-items/:id', async (req, res) => {
       description: updatedItem.description,
       descriptionPt: updatedItem.descriptionPt,
       price: updatedItem.price,
-      dietary: updatedItem.dietary ? updatedItem.dietary.split(',').filter(d => d.trim()) : [],
-      hasSpiceCustomization: updatedItem.hasSpiceCustomization,
+      brand: updatedItem.brand,
+      volume: updatedItem.volume,
+      concentration: updatedItem.concentration,
+      gender: updatedItem.gender,
+      fragranceFamily: updatedItem.fragranceFamily,
+      topNotes: updatedItem.topNotes,
+      middleNotes: updatedItem.middleNotes,
+      baseNotes: updatedItem.baseNotes,
+      stockQuantity: updatedItem.stockQuantity,
+      inStock: updatedItem.inStock,
       categoryId: updatedItem.categoryId,
       category: updatedItem.category.name,
       imageUrl: updatedItem.imageUrl
@@ -792,8 +852,16 @@ app.get('/api/admin/menu-items', async (req, res) => {
       description: item.description,
       descriptionPt: item.descriptionPt,
       price: item.price,
-      dietary: item.dietary ? item.dietary.split(',').filter(d => d.trim()) : [],
-      hasSpiceCustomization: item.hasSpiceCustomization || false,
+      brand: item.brand,
+      volume: item.volume,
+      concentration: item.concentration,
+      gender: item.gender,
+      fragranceFamily: item.fragranceFamily,
+      topNotes: item.topNotes,
+      middleNotes: item.middleNotes,
+      baseNotes: item.baseNotes,
+      stockQuantity: item.stockQuantity,
+      inStock: item.inStock,
       categoryId: item.categoryId,
       category: item.category.name,
       // Use imageUrl from database (static file path)
