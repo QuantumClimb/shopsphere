@@ -1,6 +1,6 @@
 import { CheckCircle2, Circle } from 'lucide-react';
 
-type CheckoutStep = 'cart' | 'customer' | 'address' | 'payment' | 'stripe-payment';
+type CheckoutStep = 'cart' | 'customer' | 'address' | 'payment';
 
 interface CheckoutStepIndicatorProps {
   currentStep: CheckoutStep;

@@ -9,7 +9,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const RESEND_TEST_MODE = process.env.RESEND_TEST_MODE === 'true';
 const RESEND_TEST_EMAIL = process.env.RESEND_TEST_EMAIL || 'juncando@gmail.com';
-const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@fumeslane.app';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@shopsphere.app';
 
 async function fixOrderAndSendEmails(orderNumber) {
   console.log(`🔧 Fixing order ${orderNumber} and sending emails...\n`);

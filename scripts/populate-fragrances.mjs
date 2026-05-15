@@ -183,7 +183,7 @@ function getNotes(family) {
 
 async function populateDatabase() {
   try {
-    console.log('🌸 Starting FumesLane Fragrance Database Population...\n');
+    console.log('🌸 Starting SHOPSPHERE Fragrance Database Population...\n');
     
     // 1. Read fragrance images directory
     const imagesDir = path.join(__dirname, '..', 'public', 'images', 'fragrances');
@@ -301,7 +301,7 @@ async function populateDatabase() {
     });
     
     console.log('\n✅ Database population completed successfully!');
-    console.log('🎉 FumesLane is ready for business!\n');
+    console.log('🎉 SHOPSPHERE is ready for business!\n');
     
   } catch (error) {
     console.error('❌ Population failed:', error);

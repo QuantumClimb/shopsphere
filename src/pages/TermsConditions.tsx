@@ -25,7 +25,7 @@ const TermsConditions = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 These terms govern your use of our website, online ordering system, and services provided by 
-                SHOPSPHERE, located at R. Agostinho Lourenço 339, 1000-011 Lisboa, Portugal.
+                SHOPSPHERE, located at R. Agostinho Lourenï¿½o 339, 1000-011 Lisboa, Portugal.
               </p>
               <p>
                 By placing an order, you confirm that you are at least 18 years of age and have the legal 
@@ -183,7 +183,7 @@ const TermsConditions = () => {
               <ul className="list-none space-y-2 mt-4">
                 <li><strong>Address:</strong> R. Agostinho LourenÃ§o 339, 1000-011 Lisboa, Portugal</li>
                 <li><strong>Phone:</strong> +351 920 617 185</li>
-                <li><strong>Email:</strong> support@fumeslane.app</li>
+                <li><strong>Email:</strong> support@shopsphere.app</li>
               </ul>
             </CardContent>
           </Card>

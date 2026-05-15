@@ -19,7 +19,7 @@ interface StoreStatus {
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { language, toggleLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   
   // Store status state
   const [storeStatus, setStoreStatus] = useState<StoreStatus | null>(null);
@@ -42,9 +42,6 @@ export const Navigation = () => {
 
   const navigation = [
     { name: t('nav.shop'), href: "/" },
-    { name: t('nav.ourStory'), href: "/our-story" },
-    { name: t('nav.gallery'), href: "/gallery" },
-    { name: t('nav.contact'), href: "/contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;

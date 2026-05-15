@@ -149,7 +149,7 @@ const PrivacyPolicy = () => {
                 <li><strong>Withdraw Consent:</strong> Withdraw consent for marketing communications</li>
               </ul>
               <p className="mt-4">
-                To exercise these rights, please contact us at support@fumeslane.app
+                To exercise these rights, please contact us at support@shopsphere.app
               </p>
             </CardContent>
           </Card>
@@ -221,7 +221,7 @@ const PrivacyPolicy = () => {
                 please contact us:
               </p>
               <ul className="list-none space-y-2 mt-4">
-                <li><strong>Email:</strong> support@fumeslane.app</li>
+                <li><strong>Email:</strong> support@shopsphere.app</li>
                 <li><strong>Phone:</strong> +351 920 617 185</li>
                 <li><strong>Address:</strong> R. Agostinho Lourenço 339, 1000-011 Lisboa, Portugal</li>
               </ul>

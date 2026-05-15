@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { CreditCard } from 'lucide-react';
 import { PaymentMethod } from '@/types/order';
-import { fetchJson } from '@/lib/apiConfig';
 
 interface PaymentMethodSelectorProps {
   onSelect: (method: PaymentMethod) => void;
@@ -14,21 +12,7 @@ interface PaymentMethodSelectorProps {
 }
 
 export default function PaymentMethodSelector({ onSelect, onBack, total }: PaymentMethodSelectorProps) {
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
-  const [stripeAvailable, setStripeAvailable] = useState(true);
-  
-  // Check if Stripe is configured
-  useEffect(() => {
-    fetchJson<{ publishableKey?: string }>('stripe/config')
-      .then(data => {
-        if (!data.publishableKey) {
-          setStripeAvailable(false);
-        }
-      })
-      .catch(() => {
-        setStripeAvailable(false);
-      });
-  }, []);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>('whatsapp');
   
   const handleContinue = () => {
     if (selectedMethod) {
@@ -56,24 +40,6 @@ export default function PaymentMethodSelector({ onSelect, onBack, total }: Payme
                 <div className="flex-1">
                   <p className="font-semibold">Order via WhatsApp</p>
                   <p className="text-sm text-gray-600">Send order details via WhatsApp</p>
-                </div>
-              </Label>
-            </div>
-            
-            {/* Stripe Option */}
-            <div className={`flex items-center space-x-3 p-4 border rounded-lg ${stripeAvailable ? 'hover:bg-gray-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-100'}`}>
-              <RadioGroupItem value="stripe" id="stripe" disabled={!stripeAvailable} />
-              <Label htmlFor="stripe" className={`flex items-center gap-3 flex-1 ${stripeAvailable ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
-                <div className="bg-blue-600 text-white p-2 rounded">
-                  <CreditCard className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold">Pay with Card (Stripe)</p>
-                  <p className="text-sm text-gray-600">
-                    {stripeAvailable 
-                      ? 'Secure online payment with credit/debit card' 
-                      : 'Currently unavailable - please use WhatsApp'}
-                  </p>
                 </div>
               </Label>
             </div>

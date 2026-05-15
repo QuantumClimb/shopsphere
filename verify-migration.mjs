@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function verifyMigration() {
   try {
-    console.log('🔍 Verifying FumesLane database migration...\n');
+    console.log('🔍 Verifying SHOPSPHERE database migration...\n');
     
     // Check ProductCategory table
     const categoryCount = await prisma.productCategory.count();
@@ -37,7 +37,7 @@ async function verifyMigration() {
     console.log('   All perfume-specific fields are available in the schema');
     
     console.log('\n✅ Migration completed successfully!');
-    console.log('🎉 FumesLane database is ready for use');
+    console.log('🎉 SHOPSPHERE database is ready for use');
     
     await prisma.$disconnect();
   } catch (error) {

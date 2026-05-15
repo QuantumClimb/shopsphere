@@ -340,7 +340,9 @@ const Menu = () => {
   const isStoreClosed = storeStatus?.isOpen === false;
 
   // Tabs: use categories from menuData
-  const tabs = menuData.map((category, index) => ({
+  const tabs = menuData
+    .filter(category => category.items && category.items.length > 0)
+    .map((category, index) => ({
     category,
     key: `${category.name}-${index}`,
     value: `category-${index}`,

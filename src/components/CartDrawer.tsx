@@ -8,9 +8,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import useCartStore from '../stores/cartStore';
-import { CartItem, CartCustomization } from '../types/cart';
-import { SpiceLevelDialog } from './SpiceLevelDialog';
-import { RepeatCustomizationDialog } from './RepeatCustomizationDialog';
+import { CartItem } from '../types/cart';
 import { MenuItemImage } from './MenuItemImage';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -22,14 +20,10 @@ interface CartDrawerProps {
 
 interface CartItemComponentProps {
   item: CartItem;
-  onShowSpiceDialog: (itemId: string) => void;
-  onShowRepeatDialog: (itemId: string) => void;
 }
 
 const CartItemComponent: React.FC<CartItemComponentProps> = ({ 
-  item, 
-  onShowSpiceDialog, 
-  onShowRepeatDialog 
+  item
 }) => {
   const { updateQuantity, removeItem } = useCartStore();
   const { t } = useLanguage();
@@ -43,40 +37,15 @@ const CartItemComponent: React.FC<CartItemComponentProps> = ({
   };
 
   const handleIncrement = () => {
-    // If item has spice customization, show dialogs instead of directly incrementing
-    if (item.menuItem.hasSpiceCustomization === true) {
-      // Check if this specific cart item already has a spice level
-      const currentSpiceLevel = item.customization?.spiceLevel;
-      if (currentSpiceLevel !== undefined) {
-        // This cart item already has a spice level - show repeat dialog
-        onShowRepeatDialog(item.id);
-      } else {
-        // This cart item doesn't have a spice level yet - show spice dialog
-        onShowSpiceDialog(item.id);
-      }
-    } else {
-      // No customization - directly increment
-      handleQuantityChange(item.quantity + 1);
-    }
+    handleQuantityChange(item.quantity + 1);
   };
 
   const handleDecrement = () => {
     handleQuantityChange(item.quantity - 1);
   };
 
-  const getSpiceLevelDisplay = (level?: number) => {
-    if (level === undefined) return '';
-    if (level === 0) return `🔵 ${t('cart.noSpice')}`;
-    if (level === 25) return `🌶️ ${t('cart.mild')}`;
-    if (level === 50) return `🌶️🌶️ ${t('cart.medium')}`;
-    if (level === 75) return `🌶️🌶️🌶️ ${t('cart.hot')}`;
-    if (level === 100) return `🌶️🌶️🌶️🌶️ ${t('cart.extraHot')}`;
-    return `🌶️ ${level}% ${t('cart.spicy')}`;
-  };
-
   return (
     <div className="flex items-start space-x-3 p-3 border rounded-lg">
-      {/* Menu Item Image */}
       <MenuItemImage 
         menuItem={item.menuItem}
         size="small"
@@ -85,16 +54,10 @@ const CartItemComponent: React.FC<CartItemComponentProps> = ({
       
       <div className="flex-1 min-w-0">
         <h4 className="font-medium text-sm truncate">{item.menuItem.name}</h4>
-        <p className="text-xs text-muted-foreground mb-2">€{item.menuItem.price.toFixed(2)} {t('cart.each')}</p>
+        <p className="text-xs text-muted-foreground mb-2">₹{(item.menuItem.price / 100).toFixed(2)} {t('cart.each')}</p>
         
-        {/* Customizations */}
         {item.customization && (
           <div className="space-y-1 mb-2">
-            {item.customization.spiceLevel !== undefined && (
-              <div className="text-xs text-muted-foreground">
-                {getSpiceLevelDisplay(item.customization.spiceLevel)}
-              </div>
-            )}
             {item.customization.extras && item.customization.extras.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {item.customization.extras.map((extra, index) => (
@@ -112,7 +75,6 @@ const CartItemComponent: React.FC<CartItemComponentProps> = ({
           </div>
         )}
 
-        {/* Quantity Controls */}
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -141,7 +103,7 @@ const CartItemComponent: React.FC<CartItemComponentProps> = ({
       </div>
 
       <div className="text-right">
-        <p className="font-medium text-sm">€{item.totalPrice.toFixed(2)}</p>
+        <p className="font-medium text-sm">₹{(item.totalPrice / 100).toFixed(2)}</p>
         <Button
           variant="ghost"
           size="icon"
@@ -161,15 +123,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onOpenChange: controlledOnOpenChange
 }) => {
   const [open, setOpen] = useState(controlledOpen ?? false);
-  const { items, total, itemCount, clearCart, addItem } = useCartStore();
-  const navigate = useNavigate();
+  const { items, total, itemCount, clearCart } = useCartStore();
   const { t } = useLanguage();
   
-  const [isSpiceDialogOpen, setIsSpiceDialogOpen] = useState(false);
-  const [isRepeatDialogOpen, setIsRepeatDialogOpen] = useState(false);
-  const [currentItemForCustomization, setCurrentItemForCustomization] = useState<string | null>(null);
-
-  // Sync controlled open state
   useEffect(() => {
     if (typeof controlledOpen === 'boolean') setOpen(controlledOpen);
   }, [controlledOpen]);
@@ -179,52 +135,30 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     controlledOnOpenChange?.(nextOpen);
   };
 
-  const handleShowSpiceDialog = (cartItemId: string) => {
-    setCurrentItemForCustomization(cartItemId);
-    setIsSpiceDialogOpen(true);
-  };
-
-  const handleShowRepeatDialog = (cartItemId: string) => {
-    setCurrentItemForCustomization(cartItemId);
-    setIsRepeatDialogOpen(true);
-  };
-
-  const handleSpiceLevelConfirm = (spiceLevel: number) => {
-    if (currentItemForCustomization) {
-      const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-      if (cartItem) {
-        // Add item to cart with spice level
-        const customization: CartCustomization = {
-          spiceLevel
-        };
-        addItem(cartItem.menuItem, 1, customization);
-      }
-    }
-    setCurrentItemForCustomization(null);
-  };
-
-  const handleRepeatCustomization = () => {
-    if (currentItemForCustomization) {
-      const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-      if (cartItem) {
-        // Use THIS cart item's existing spice level
-        const existingSpiceLevel = cartItem.customization?.spiceLevel;
-        if (existingSpiceLevel !== undefined) {
-          const customization: CartCustomization = {
-            spiceLevel: existingSpiceLevel
-          };
-          addItem(cartItem.menuItem, 1, customization);
+  const handleWhatsAppBooking = () => {
+    const itemList = items
+      .map((item) => {
+        let name = item.menuItem.name;
+        if (item.customization?.specialInstructions) {
+          name += ` (${item.customization.specialInstructions})`;
         }
-      }
-    }
-    setIsRepeatDialogOpen(false);
-    setCurrentItemForCustomization(null);
-  };
-
-  const handleNewCustomization = () => {
-    // Close repeat dialog and open spice dialog for new selection
-    setIsRepeatDialogOpen(false);
-    setIsSpiceDialogOpen(true);
+        return `${item.quantity} x ${name}`;
+      })
+      .join('\n');
+    
+    const grandTotal = total / 100 + 2.50;
+    
+    const message = encodeURIComponent(
+      `Hi SHOPSPHERE! I would like to book the following items:\n\n` +
+      `${itemList}\n\n` +
+      `Subtotal: ₹${(total / 100).toFixed(2)}\n` +
+      `Delivery Fee: ₹2.50\n` +
+      `Total: ₹${grandTotal.toFixed(2)}\n\n` +
+      `Please let me know the next steps for payment and delivery address. Thank you!`
+    );
+    
+    window.open(`https://wa.me/919789909362?text=${message}`, '_blank');
+    setOpen(false);
   };
 
   const defaultTrigger = (
@@ -277,47 +211,39 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </div>
           ) : (
             <>
-              {/* Cart Items */}
               <ScrollArea className="flex-1 -mx-6 px-6 overflow-y-auto">
                 <div className="space-y-3 py-4">
                   {items.map((item) => (
                     <CartItemComponent 
                       key={item.id} 
                       item={item}
-                      onShowSpiceDialog={handleShowSpiceDialog}
-                      onShowRepeatDialog={handleShowRepeatDialog}
                     />
                   ))}
                 </div>
               </ScrollArea>
 
-              {/* Cart Summary */}
               <div className="border-t pt-4 space-y-4 flex-shrink-0">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>{t('cart.subtotal')} ({itemCount} {t('cart.items')})</span>
-                    <span>€{total.toFixed(2)}</span>
+                    <span>₹{(total / 100).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>{t('cart.deliveryFee')}</span>
-                    <span>€2.50</span>
+                    <span>₹2.50</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
                     <span>{t('cart.total')}</span>
-                    <span>€{(total + 2.50).toFixed(2)}</span>
+                    <span>₹{(total / 100 + 2.50).toFixed(2)}</span>
                   </div>
                 </div>
 
-                {/* Checkout Buttons */}
                 <div className="space-y-2">
-                    <Button className="w-full" size="lg" onClick={() => {
-                      setOpen(false);
-                      navigate('/checkout');
-                    }}>
-                      {t('cart.proceedToCheckout')}
+                    <Button className="w-full" size="lg" onClick={handleWhatsAppBooking}>
+                      {t('cart.bookViaWhatsApp')}
                     </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => setOpen(false)}>
                     {t('cart.continueShopping')}
                   </Button>
                 </div>
@@ -325,34 +251,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </>
           )}
         </div>
-        
-        {/* Spice Customization Dialogs */}
-        {currentItemForCustomization && isSpiceDialogOpen && (() => {
-          const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-          return (
-            <SpiceLevelDialog
-              open={isSpiceDialogOpen}
-              onOpenChange={setIsSpiceDialogOpen}
-              onConfirm={handleSpiceLevelConfirm}
-              itemName={cartItem?.menuItem.name || ''}
-            />
-          );
-        })()}
-        
-        {currentItemForCustomization && isRepeatDialogOpen && (() => {
-          const cartItem = items.find(ci => ci.id === currentItemForCustomization);
-          const existingSpiceLevel = cartItem?.customization?.spiceLevel;
-          return (
-            <RepeatCustomizationDialog
-              open={isRepeatDialogOpen}
-              onOpenChange={setIsRepeatDialogOpen}
-              onRepeat={handleRepeatCustomization}
-              onCustomize={handleNewCustomization}
-              itemName={cartItem?.menuItem.name || ''}
-              previousSpiceLevel={existingSpiceLevel || 0}
-            />
-          );
-        })()}
       </SheetContent>
     </Sheet>
   );

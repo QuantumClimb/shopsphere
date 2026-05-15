@@ -1,11 +1,7 @@
 {
   "nav": {
-    "ourStory": "Our Story",
     "menu": "Menu",
-    "shop": "Shop",
-    "gallery": "Gallery",
-    "contact": "Contact",
-    "switchLanguage": "Switch to Portuguese"
+    "shop": "Shop"
   },
   "common": {
     "orderNow": "Order Now",
@@ -24,61 +20,6 @@
     "pageNotFound": "Page Not Found",
     "pageNotFoundMessage": "The page you're looking for doesn't exist.",
     "goHome": "Go Home"
-  },
-  "ourStory": {
-    "title": "Welcome to ShopSphere",
-    "subtitle": "Discover a world of luxury fragrances, curated for elegance and individual expression.",
-    "storyTitle": "Our Fragrance Journey",
-    "story1": "ShopSphere was born from a passion for scents that tell a story. We believe a fragrance is more than just a smell; it's an invisible accessory that defines your presence.",
-    "story2": "Our collection is carefully curated from around the world, featuring niche houses and designer masterpieces that evoke emotion and memory.",
-    "story3": "We are dedicated to helping you find your signature scent, providing an immersive experience that celebrates the art of perfumery.",
-    "experienceTitle": "The SHOPSPHERE Experience",
-    "experienceSubtitle": "Explore curated products, seamless shopping, and a customer experience designed around clarity and convenience.",
-    "traditionTitle": "Tradition Perfected",
-    "traditionText1": "SHOPSPHERE is built around careful product selection, dependable quality, and a modern buying experience that feels easy from browse to checkout.",
-    "traditionText2": "From discovery to delivery, every part of SHOPSPHERE is designed to help customers shop with confidence.",
-    "visionTitle": "Our Vision",
-    "visionText": "To be more than just a store - to become a trusted destination where customers discover products they love through a polished, reliable shopping experience.",
-    "visionQuote": "Every order at SHOPSPHERE should feel simple, reliable, and worth coming back for.",
-    "visionClosing": "Join us as we continue to build a smarter and more enjoyable way to shop.",
-    "ctaTitle": "Discover SHOPSPHERE",
-    "ctaSubtitle": "Explore a shopping experience built around quality, trust, and convenience.",
-    "heritage": {
-      "title": "Curated Heritage",
-      "description": "Celebrating the timeless traditions of global perfumery, from Grasse to the Orient."
-    },
-    "excellence": {
-      "title": "Olfactory Excellence",
-      "description": "Our experts curate each bottle based on complexity, longevity, and the unique story behind the fragrance."
-    },
-    "ingredients": {
-      "title": "Purest Ingredients",
-      "description": "From natural absolutes to modern aromachemicals, we focus on fragrances crafted with the highest quality materials."
-    },
-    "hospitality": {
-      "title": "Personalized Scenting",
-      "description": "We offer one-on-one consultations to help you navigate our collection and discover your olfactory identity."
-    },
-    "valuesTitle": "What Drives Us",
-    "valuesSubtitle": "Four pillars that define the SHOPSPHERE experience and our commitment to quality shopping.",
-    "features": {
-      "recipes": {
-        "title": "Expert Curation",
-        "description": "Every fragrance in our collection is handpicked for its unique character and quality."
-      },
-      "fresh": {
-        "title": "Global Reach",
-        "description": "Sourcing the most sought-after scents from independent labs and historic houses worldwide."
-      },
-      "dining": {
-        "title": "Signature Scents",
-        "description": "Helping you find the perfect fragrance for every occasion, season, and mood."
-      },
-      "family": {
-        "title": "Authenticity Guaranteed",
-        "description": "We deal only in 100% authentic products, sourced directly from manufacturers or authorized distributors."
-      }
-    }
   },
   "menu": {
     "title": "Fragrance Collection",
@@ -105,116 +46,23 @@
     "deliveryFee": "Delivery Fee",
     "total": "Total",
     "proceedToCheckout": "Proceed to Checkout",
+    "bookViaWhatsApp": "Book via WhatsApp",
     "continueShopping": "Continue Shopping",
     "remove": "Remove",
-    "each": "each",
-    "noSpice": "No Spice",
-    "mild": "Mild",
-    "medium": "Medium",
-    "hot": "Hot",
-    "extraHot": "Extra Hot",
-    "spicy": "Spicy"
+    "each": "each"
   },
   "checkout": {
     "title": "Checkout",
     "storeClosed": "Store is currently closed",
-    "storeClosedMessage": "Checkout is disabled while the store is closed. You can browse the menu and come back later.",
-    "storeClosedCheckoutDisabled": "Store Closed - Checkout Disabled",
-    "returnToShop": "Return to Shop",
-    "yourOrder": "Your Order",
-    "concentration": "Concentration",
-    "continueToCustomerInfo": "Continue to Customer Info",
-    "deliveryInfo": "Delivery Information",
-    "paymentMethod": "Payment Method",
-    "orderSummary": "Order Summary",
-    "placeOrder": "Place Order",
-    "fullName": "Full Name",
-    "email": "Email Address",
-    "phone": "Phone Number",
-    "street": "Street Address",
-    "apartment": "Apartment / Suite (Optional)",
-    "city": "City",
-    "postalCode": "Postal Code",
-    "country": "Country",
-    "cardPayment": "Pay with Card",
-    "cashOnDelivery": "Cash on Delivery",
-    "specialInstructions": "Special Instructions (Optional)",
-    "errors": {
-      "required": "This field is required",
-      "invalidEmail": "Invalid email address",
-      "invalidPhone": "Invalid phone number"
-    }
-  },
-  "reservation": {
-    "title": "Reservations",
-    "subtitle": "Secure your spot for the SHOPSPHERE experience",
-    "bookTable": "Book Your Table",
-    "openHours": "Open Monday - Saturday: 11:00 AM - 10:00 PM",
-    "closedSundays": "Closed Sundays",
-    "numberOfGuests": "Number of Guests",
-    "selectGuests": "Select number of guests",
-    "guest": "Guest",
-    "guests": "Guests",
-    "date": "Date",
-    "selectDate": "Select a date",
-    "time": "Time",
-    "selectTime": "Select a time",
-    "unavailable": "Unavailable",
-    "available": "Available",
-    "bookViaWhatsApp": "Book via WhatsApp",
-    "joinWaitlist": "Join Waitlist",
-    "selectAllFields": "Please select all fields before booking",
-    "timeSlotFull": "This time slot is full. Join the waitlist to be notified if a cancellation occurs.",
-    "person": "person",
-    "people": "people",
-    "on": "on",
-    "at": "at",
-    "whatsappBooking": "Hi SHOPSPHERE! I'd like to make a reservation for",
-    "whatsappWaitlist": "Hi SHOPSPHERE! I'd like to join the waitlist for",
-    "confirmAvailability": "Please confirm availability.",
-    "notifyAvailable": "Please notify me if a table becomes available.",
-    "name": "Your Name",
-    "email": "Email Address",
-    "phone": "Phone Number",
-    "specialRequests": "Special Requests (Optional)",
-    "submitReservation": "Submit Reservation",
-    "hours": "Opening Hours",
-    "mondayToSaturday": "Monday - Saturday: 12:00 PM - 10:00 PM",
-    "sundayClosed": "Sunday: Closed",
-    "closedNotice": "We are closed on Sundays",
-    "success": "Reservation submitted successfully!",
-    "error": "Failed to submit reservation. Please try again."
-  },
-  "contact": {
-    "title": "Contact Us",
-    "subtitle": "Get in touch with us for any inquiries",
-    "scanReviews": "Scan for Reviews",
-    "quickContact": "Quick Contact",
-    "quickContactDesc": "Have a question? Contact us directly via WhatsApp for the fastest response about reservations, menu items, or catering.",
-    "whatsappMessage": "Hi SHOPSPHERE! I have a question about your products. Could you please assist me?",
-    "whatsappUs": "WhatsApp Us",
-    "followUs": "Follow Us",
-    "address": "Address",
-    "phone": "Phone",
-    "email": "Email",
-    "hours": "Opening Hours",
-    "mondayToSaturday": "Monday - Saturday: 12:00 PM - 10:00 PM",
-    "sundayClosed": "Sunday: Closed",
-    "sendMessage": "Send Message",
-    "name": "Your Name",
-    "emailAddress": "Email Address",
-    "phoneNumber": "Phone Number",
-    "message": "Your Message",
-    "success": "Message sent successfully!",
-    "successDesc": "We'll get back to you within 24 hours.",
-    "error": "Failed to send message. Please try again."
+    "storeClosedMessage": "Checkout is disabled while the store is closed.",
+    "concentration": "Concentration"
   },
   "customerSupport": {
     "title": "Customer Support",
     "howCanWeHelp": "How Can We Help You?",
     "helpDescription": "At SHOPSPHERE, we're committed to providing excellent customer service. Whether you have questions about our catalog, need help with an order, or want to share feedback, our team is here to assist you.",
     "callUs": "Call Us",
-    "callDescription": "Available during business hours for immediate assistance with orders, reservations, or inquiries.",
+    "callDescription": "Available during business hours for immediate assistance with orders or inquiries.",
     "emailUs": "Email Us",
     "emailDescription": "Send us an email anytime. We typically respond within 24 hours on business days.",
     "supportHours": "Support Hours",
@@ -239,10 +87,7 @@
     "about": "About",
     "aboutText": "Discover curated products at SHOPSPHERE. A cleaner, smarter way to shop online.",
     "quickLinks": "Quick Links",
-    "ourStory": "Our Story",
     "shop": "Shop",
-    "gallery": "Gallery",
-    "contact": "Contact",
     "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
@@ -280,27 +125,5 @@
     "shipped": "Shipped",
     "delivered": "Delivered",
     "cancelled": "Cancelled"
-  },
-  "orderConfirmation": {
-    "title": "Order Confirmed!",
-    "thankYou": "Thank you for your order. We are preparing your fragrances for shipment!",
-    "orderNumber": "Order Number",
-    "deliveryAddress": "Delivery Address",
-    "estimatedDelivery": "Estimated Delivery",
-    "deliveryTime": "30-45 minutes",
-    "orderItems": "Order Items",
-    "spiceLevel": "Spice Level",
-    "subtotal": "Subtotal",
-    "deliveryFee": "Delivery Fee",
-    "totalPaid": "Total Paid",
-    "total": "Total",
-    "confirmationEmailSent": "A confirmation email has been sent to",
-    "confirmationWhatsApp": "We'll confirm your order via WhatsApp at",
-    "continueShopping": "Continue Shopping",
-    "backToHome": "Back to Home",
-    "loading": "Loading your order...",
-    "orderNotFound": "Order not found",
-    "notProvided": "Not provided",
-    "backToShop": "Back to Shop"
   }
 }

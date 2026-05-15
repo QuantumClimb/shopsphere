@@ -12,7 +12,7 @@ export interface DeliveryAddress {
   country: string;
 }
 
-export type PaymentMethod = 'whatsapp' | 'stripe';
+export type PaymentMethod = 'whatsapp';
 
 export type OrderStatus = 
   | 'PENDING'
@@ -55,26 +55,9 @@ export interface Order {
   paymentStatus: PaymentStatus;
   paymentMethod: string;
   
-  // Payment
-  stripePaymentIntentId?: string;
-  stripeChargeId?: string;
-  
   // Timestamps
   createdAt: string;
   updatedAt: string;
   confirmedAt?: string;
   completedAt?: string;
-}
-
-export interface CreatePaymentIntentRequest {
-  orderItems: any[];
-  customerInfo: CustomerInfo;
-  deliveryAddress: DeliveryAddress;
-}
-
-export interface CreatePaymentIntentResponse {
-  clientSecret: string;
-  orderId: number;
-  orderNumber: string;
-  amount: number;
 }

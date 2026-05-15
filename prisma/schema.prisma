@@ -1,4 +1,4 @@
-// Prisma schema for FumesLane Perfume Store (Production - PostgreSQL/Neon)
+// Prisma schema for SHOPSPHERE Perfume Store (Production - PostgreSQL/Neon)
 
 datasource db {
   provider = "postgresql"

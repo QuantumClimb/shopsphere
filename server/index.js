@@ -1,12 +1,10 @@
-// server/index.js - Express API server for ShopSphere (FumesLane)
+// server/index.js - Express API server for ShopSphere (SHOPSPHERE)
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import path from 'node:path';
 import fs from 'node:fs';
 import { PrismaClient } from '@prisma/client';
-// import Stripe from 'stripe';
-// import { Resend } from 'resend';
 import twilio from 'twilio';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'node:url';
@@ -23,7 +21,7 @@ const prisma = new PrismaClient({
 
 // ShopSphere contact info
 const RESTAURANT_WHATSAPP = process.env.RESTAURANT_WHATSAPP || '+351920617185';
-const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@fumeslane.app';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@shopsphere.app';
 
 // RESEND TEST MODE: Send all emails to account owner until domain is verified
 // Set to true to test email flow, false for production with verified domain
@@ -35,16 +33,16 @@ let resend = null;
 // if (process.env.RESEND_API_KEY) {
 //   try {
 //     resend = new Resend(process.env.RESEND_API_KEY);
-//     console.log('âœ… Resend initialized for email notifications');
+//     console.log('✅ Resend initialized for email notifications');
 //     if (RESEND_TEST_MODE) {
-//       console.log('âš ï¸  RESEND TEST MODE: All emails will be sent to', RESEND_TEST_EMAIL);
+//       console.log('⚠️  RESEND TEST MODE: All emails will be sent to', RESEND_TEST_EMAIL);
 //       console.log('   Set RESEND_TEST_MODE=false after verifying domain');
 //     }
 //   } catch (error) {
-//     console.warn('âš ï¸  Resend initialization failed:', error.message);
+//     console.warn('⚠️  Resend initialization failed:', error.message);
 //   }
 // } else {
-  console.warn('âš ï¸  Resend disabled - email notifications will not work');
+  console.warn('⚠️  Resend disabled - email notifications will not work');
 // }
 
 // Initialize Twilio (for WhatsApp notifications)
@@ -55,32 +53,17 @@ const TWILIO_WHATSAPP_FROM = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+1415
 if (TWILIO_ENABLED && process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
   try {
     twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    console.log('âœ… Twilio initialized for WhatsApp notifications');
+    console.log('✅ Twilio initialized for WhatsApp notifications');
     console.log(`   From: ${TWILIO_WHATSAPP_FROM}`);
     console.log(`   To: ${RESTAURANT_WHATSAPP}`);
   } catch (error) {
-    console.warn('âš ï¸  Twilio initialization failed:', error.message);
+    console.warn('⚠️  Twilio initialization failed:', error.message);
   }
 } else if (TWILIO_ENABLED) {
-  console.warn('âš ï¸  Twilio not configured - WhatsApp notifications will use manual method');
+  console.warn('⚠️  Twilio not configured - WhatsApp notifications will use manual method');
 } else {
-  console.log('â„¹ï¸  Twilio disabled - using manual WhatsApp links (set TWILIO_ENABLED=true to enable)');
+  console.log('ℹ️  Twilio disabled - using manual WhatsApp links (set TWILIO_ENABLED=true to enable)');
 }
-
-// Initialize Stripe (only if key is configured) - DISABLED
-let stripe = null;
-// if (process.env.STRIPE_SECRET_KEY && process.env.STRIPE_SECRET_KEY !== 'sk_test_YOUR_SECRET_KEY_HERE') {
-//   try {
-//     stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-//       apiVersion: '2024-11-20.acacia',
-//     });
-//     console.log('âœ… Stripe initialized');
-//   } catch (error) {
-//     console.warn('âš ï¸  Stripe initialization failed:', error.message);
-//   }
-// } else {
-  console.warn('âš ï¸  Stripe disabled - payment endpoints will not work');
-// }
 
 const PORT = process.env.PORT || 3001;
 
@@ -102,7 +85,7 @@ async function ensureDbConnection(force = false) {
     return true;
   } catch (error) {
     dbConnected = false;
-    console.warn('âš ï¸  Database check failed:', error.message);
+    console.warn('⚠️  Database check failed:', error.message);
     return false;
   } finally {
     lastDbCheck = now;
@@ -204,15 +187,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     message: 'Server is running',
-    database: dbConnected ? 'connected' : 'disconnected',
-    stripe: {
-      configured: Boolean(stripe),
-      webhookSecretSet: Boolean(process.env.STRIPE_WEBHOOK_SECRET)
-    },
-    resend: {
-      configured: Boolean(resend),
-      testMode: RESEND_TEST_MODE
-    }
+    database: dbConnected ? 'connected' : 'disconnected'
   });
 });
 
@@ -227,8 +202,8 @@ app.get('/api/db/diagnostics', async (req, res) => {
     const [versionRow] = await prisma.$queryRaw`SELECT version()`;
     const [nowRow] = await prisma.$queryRaw`SELECT NOW()`;
     const [counts] = await prisma.$queryRaw`SELECT 
-      (SELECT COUNT(*) FROM "public"."MenuCategory")::int AS categories,
-      (SELECT COUNT(*) FROM "public"."MenuItem")::int AS items`;
+      (SELECT COUNT(*) FROM "public"."ProductCategory")::int AS categories,
+      (SELECT COUNT(*) FROM "public"."Product")::int AS items`;
 
     res.json({
       ok: true,
@@ -247,11 +222,11 @@ app.get('/api/db/diagnostics', async (req, res) => {
 
 // Get all menu categories with items
 app.get('/api/menu', async (req, res) => {
-  console.log('ðŸ“¥ GET /api/menu request received');
+  console.log('📥 GET /api/menu request received');
   try {
-    console.log('ðŸ” Checking database connection...');
+    console.log('🔍 Checking database connection...');
     if (!(await ensureDbConnection())) {
-      console.log('âš ï¸  Database not connected, using fallback');
+      console.log('⚠️  Database not connected, using fallback');
       // Fallback: serve static menu data bundled with the app
       try {
         const fallbackPath = path.join(__dirname, '..', 'public', 'menuData.json');
@@ -265,7 +240,7 @@ app.get('/api/menu', async (req, res) => {
       return res.json([]);
     }
 
-    console.log('ðŸ” Querying ProductCategory...');
+    console.log('🔍 Querying ProductCategory...');
     const categories = await prisma.productCategory.findMany({
       include: {
         products: true
@@ -302,9 +277,9 @@ app.get('/api/menu', async (req, res) => {
 
     res.json(menuData);
   } catch (error) {
-    console.error('âŒ Error fetching menu:', error);
-    console.error('âŒ Error message:', error.message);
-    console.error('âŒ Error stack:', error.stack);
+    console.error('❌ Error fetching menu:', error);
+    console.error('❌ Error message:', error.message);
+    console.error('❌ Error stack:', error.stack);
     res.status(500).json({ error: 'Failed to fetch menu data' });
   }
 });
@@ -327,7 +302,7 @@ app.get('/api/menu/category/:categoryName', async (req, res) => {
         }
       },
       include: {
-        items: true
+        products: true
       }
     });
 
@@ -335,7 +310,7 @@ app.get('/api/menu/category/:categoryName', async (req, res) => {
       return res.status(404).json({ error: 'Category not found' });
     }
 
-    const menuItems = category.items.map(item => ({
+    const menuItems = category.products.map(item => ({
       id: item.id.toString(),
       name: item.name,
       namePt: item.namePt,
@@ -457,17 +432,12 @@ app.get('/api/admin/categories', async (req, res) => {
     const categories = await prisma.productCategory.findMany({
       orderBy: {
         name: 'asc'
-      },
-      include: {
-        _count: {
-          select: { items: true }
-        }
       }
     });
     res.json(categories);
   } catch (error) {
     console.error('Error fetching categories:', error);
-    res.status(500).json({ error: 'Failed to fetch categories' });
+    res.status(500).json({ error: 'Failed to fetch categories', details: error.message });
   }
 });
 
@@ -500,11 +470,6 @@ app.post('/api/admin/categories', async (req, res) => {
     const newCategory = await prisma.productCategory.create({
       data: {
         name: name.trim()
-      },
-      include: {
-        _count: {
-          select: { items: true }
-        }
       }
     });
 
@@ -547,12 +512,7 @@ app.put('/api/admin/categories/:id', async (req, res) => {
 
     const updatedCategory = await prisma.productCategory.update({
       where: { id: Number.parseInt(id) },
-      data: { name: name.trim() },
-      include: {
-        _count: {
-          select: { items: true }
-        }
-      }
+      data: { name: name.trim() }
     });
 
     res.json(updatedCategory);
@@ -575,21 +535,20 @@ app.delete('/api/admin/categories/:id', async (req, res) => {
 
     // Check if category has any menu items
     const category = await prisma.productCategory.findUnique({
-      where: { id: Number.parseInt(id) },
-      include: {
-        _count: {
-          select: { items: true }
-        }
-      }
+      where: { id: Number.parseInt(id) }
     });
 
     if (!category) {
       return res.status(404).json({ error: 'Category not found' });
     }
 
-    if (category._count.items > 0) {
+    const productCount = await prisma.product.count({
+      where: { categoryId: Number.parseInt(id) }
+    });
+
+    if (productCount > 0) {
       return res.status(409).json({ 
-        error: `Cannot delete category with ${category._count.items} menu item(s). Please move or delete the items first.` 
+        error: `Cannot delete category with ${productCount} menu item(s). Please move or delete the items first.` 
       });
     }
 
@@ -881,7 +840,7 @@ app.get('/api/admin/menu-items', async (req, res) => {
 });
 
 // ============================================================================
-// STRIPE & ORDER MANAGEMENT
+// ORDER MANAGEMENT
 // ============================================================================
 
 // Helper: Generate unique order number
@@ -895,38 +854,38 @@ function generateOrderNumber() {
 // Helper: Calculate delivery fee
 function calculateDeliveryFee(address) {
   // Simple flat rate for now - can be enhanced with distance calculation
-  return 2.5; // â‚¬2.50 delivery fee
+  return 2.5; // €2.50 delivery fee
 }
 
 // Helper: Format order for WhatsApp message
 function formatOrderForWhatsApp(order) {
   const items = order.orderItems.map(item => {
     const spiceText = item.spiceLevel === undefined ? '' : ` - ${item.spiceLevel}% spice`;
-    return `â€¢ ${item.quantity}x ${item.name} (â‚¬${item.totalPrice.toFixed(2)})${spiceText}`;
+    return `• ${item.quantity}x ${item.name} (€${item.totalPrice.toFixed(2)})${spiceText}`;
   }).join('\n');
   
   const address = typeof order.deliveryAddress === 'string' 
     ? order.deliveryAddress 
     : `${order.deliveryAddress.street}, ${order.deliveryAddress.city}, ${order.deliveryAddress.postalCode}`;
   
-  return `ðŸ”” *NEW ORDER - ${order.orderNumber}*
+  return `🔔 *NEW ORDER - ${order.orderNumber}*
 
-ðŸ‘¤ *Customer:* ${order.customerName}
-ðŸ“ž *Phone:* ${order.customerPhone}
-ðŸ“§ *Email:* ${order.customerEmail}
+👤 *Customer:* ${order.customerName}
+📞 *Phone:* ${order.customerPhone}
+📧 *Email:* ${order.customerEmail}
 
-ðŸ“¦ *Items:*
+📦 *Items:*
 ${items}
 
-ðŸ’° *Subtotal:* â‚¬${order.subtotal.toFixed(2)}
-ðŸšš *Delivery:* â‚¬${order.deliveryFee.toFixed(2)}
-ðŸ’³ *Total:* â‚¬${order.total.toFixed(2)}
+💰 *Subtotal:* €${order.subtotal.toFixed(2)}
+🚚 *Delivery:* €${order.deliveryFee.toFixed(2)}
+💳 *Total:* €${order.total.toFixed(2)}
 
-ðŸ“ *Delivery Address:*
+📍 *Delivery Address:*
 ${address}
 
-ðŸ’³ *Payment:* ${order.paymentMethod === 'STRIPE_CARD' ? 'Card (PAID âœ…)' : 'Cash on Delivery'}
-ðŸ“Š *Status:* ${order.status}`;
+💳 *Payment:* ${order.paymentMethod}
+📊 *Status:* ${order.status}`;
 }
 
 // Helper: Send WhatsApp notification (Twilio or manual link)
@@ -936,9 +895,9 @@ async function sendWhatsAppNotification(order) {
   if (twilioClient && TWILIO_ENABLED) {
     // Automatic sending via Twilio
     try {
-      console.log('\nðŸ“± â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+      console.log('\n📲 ══════════════════════════════════════════');
       console.log('   SENDING WHATSAPP VIA TWILIO');
-      console.log('   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+      console.log('   ══════════════════════════════════════════');
       
       const result = await twilioClient.messages.create({
         from: TWILIO_WHATSAPP_FROM,
@@ -946,15 +905,15 @@ async function sendWhatsAppNotification(order) {
         body: message
       });
       
-      console.log(`âœ… WhatsApp sent successfully!`);
+      console.log(`✅ WhatsApp sent successfully!`);
       console.log(`   Message SID: ${result.sid}`);
       console.log(`   Status: ${result.status}`);
-      console.log('   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n');
+      console.log('   ══════════════════════════════════════════\n');
       
       return { success: true, method: 'twilio', sid: result.sid };
       
     } catch (error) {
-      console.error('âŒ Twilio WhatsApp failed:', error.message);
+      console.error('❌ Twilio WhatsApp failed:', error.message);
       console.log('   Falling back to manual method...\n');
       // Fall through to manual method
     }
@@ -964,13 +923,13 @@ async function sendWhatsAppNotification(order) {
   const encodedMessage = encodeURIComponent(message);
   const whatsappLink = `https://wa.me/${RESTAURANT_WHATSAPP.replaceAll('+', '')}?text=${encodedMessage}`;
   
-  console.log('\nðŸ“± â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+  console.log('\n📲 ══════════════════════════════════════════');
   console.log('   WHATSAPP NOTIFICATION (MANUAL)');
-  console.log('   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+  console.log('   ══════════════════════════════════════════');
   console.log(message);
-  console.log('   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
-  console.log(`   ðŸ”— Send manually: ${whatsappLink}`);
-  console.log('   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n');
+  console.log('   ══════════════════════════════════════════');
+  console.log(`   🔗 Send manually: ${whatsappLink}`);
+  console.log('   ══════════════════════════════════════════\n');
   
   return { success: true, method: 'manual', link: whatsappLink };
 }
@@ -982,10 +941,10 @@ function logWhatsAppNotification(order) {
 
 // Helper: Send email notification to customer
 async function sendCustomerConfirmationEmail(order) {
-  console.log(`ðŸ“§ sendCustomerConfirmationEmail called for order ${order.orderNumber}`);
+  console.log(`📧 sendCustomerConfirmationEmail called for order ${order.orderNumber}`);
   
   if (!resend) {
-    console.warn('âš ï¸  Resend not configured - skipping customer email');
+    console.warn('⚠️  Resend not configured - skipping customer email');
     console.warn('   RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'SET' : 'NOT SET');
     return null;
   }
@@ -1000,7 +959,7 @@ async function sendCustomerConfirmationEmail(order) {
           ${item.spiceLevel ? `<br><small style="color: #6b7280;">Spice Level: ${item.spiceLevel}</small>` : ''}
         </td>
         <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">${item.quantity}</td>
-        <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: right;">â‚¬${(item.price * item.quantity).toFixed(2)}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: right;">€${(item.price * item.quantity).toFixed(2)}</td>
       </tr>
     `).join('');
 
@@ -1027,11 +986,11 @@ async function sendCustomerConfirmationEmail(order) {
         <div style="background-color: white; padding: 30px; border-radius: 0 0 8px 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           ${RESEND_TEST_MODE ? `
           <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 0 0 20px 0;">
-            <p style="margin: 0; font-weight: bold; color: #92400e;">âš ï¸ TEST MODE</p>
+            <p style="margin: 0; font-weight: bold; color: #92400e;">⚠️ TEST MODE</p>
             <p style="margin: 5px 0 0; color: #92400e; font-size: 13px;">This email was sent to ${RESEND_TEST_EMAIL} for testing. Original recipient: ${order.customerEmail}</p>
           </div>
           ` : ''}
-          <p style="font-size: 18px; color: #059669; font-weight: bold; margin-top: 0;">âœ“ Order Confirmed!</p>
+          <p style="font-size: 18px; color: #059669; font-weight: bold; margin-top: 0;">✓ Order Confirmed!</p>
           
           <p>Dear ${order.customerName},</p>
           
@@ -1058,15 +1017,15 @@ async function sendCustomerConfirmationEmail(order) {
             <tfoot>
               <tr>
                 <td colspan="2" style="padding: 12px; text-align: right; font-weight: bold; border-top: 2px solid #D4AF37;">Subtotal:</td>
-                <td style="padding: 12px; text-align: right; border-top: 2px solid #D4AF37;">â‚¬${order.subtotal.toFixed(2)}</td>
+                <td style="padding: 12px; text-align: right; border-top: 2px solid #D4AF37;">€${order.subtotal.toFixed(2)}</td>
               </tr>
               <tr>
                 <td colspan="2" style="padding: 12px; text-align: right; font-weight: bold;">Delivery Fee:</td>
-                <td style="padding: 12px; text-align: right;">â‚¬${order.deliveryFee.toFixed(2)}</td>
+                <td style="padding: 12px; text-align: right;">€${order.deliveryFee.toFixed(2)}</td>
               </tr>
               <tr>
                 <td colspan="2" style="padding: 12px; text-align: right; font-weight: bold; font-size: 18px; color: #D4AF37;">Total:</td>
-                <td style="padding: 12px; text-align: right; font-size: 18px; font-weight: bold; color: #D4AF37;">â‚¬${order.total.toFixed(2)}</td>
+                <td style="padding: 12px; text-align: right; font-size: 18px; font-weight: bold; color: #D4AF37;">€${order.total.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>
@@ -1095,7 +1054,7 @@ async function sendCustomerConfirmationEmail(order) {
             <p><strong>Namaste Curry House</strong></p>
             <p>Authentic Indian Cuisine in Portugal</p>
             <p>Phone: ${RESTAURANT_WHATSAPP} | Email: ${RESTAURANT_EMAIL}</p>
-            <p style="margin-top: 20px;">Thank you for choosing us! ðŸ™</p>
+            <p style="margin-top: 20px;">Thank you for choosing us! 🙏 </p>
           </div>
         </div>
       </body>
@@ -1110,7 +1069,7 @@ async function sendCustomerConfirmationEmail(order) {
     });
 
     const emailTo = RESEND_TEST_MODE ? RESEND_TEST_EMAIL : order.customerEmail;
-    console.log(`âœ… Customer confirmation email sent successfully!`);
+    console.log(`✅ Customer confirmation email sent successfully!`);
     console.log(`   To: ${emailTo}${RESEND_TEST_MODE ? ' (TEST MODE)' : ''}`);
     console.log(`   Message ID:`, result.data?.id || result.id);
     if (RESEND_TEST_MODE && order.customerEmail !== RESEND_TEST_EMAIL) {
@@ -1118,7 +1077,7 @@ async function sendCustomerConfirmationEmail(order) {
     }
     return result;
   } catch (error) {
-    console.error('âŒ Error sending customer email:');
+    console.error('❌ Error sending customer email:');
     console.error('   Error message:', error.message);
     console.error('   Error details:', error);
     return null;
@@ -1128,14 +1087,14 @@ async function sendCustomerConfirmationEmail(order) {
 // Helper: Send email notification to restaurant owner
 async function sendOwnerNotificationEmail(order) {
   if (!resend) {
-    console.warn('âš ï¸  Resend not configured - skipping owner email');
+    console.warn('⚠️  Resend not configured - skipping owner email');
     return null;
   }
 
   try {
     const orderItemsText = order.orderItems.map(item => {
       const spiceText = item.spiceLevel ? ` (${item.spiceLevel})` : '';
-      return `${item.quantity}x ${item.name}${spiceText} - â‚¬${(item.price * item.quantity).toFixed(2)}`;
+      return `${item.quantity}x ${item.name}${spiceText} - €${(item.price * item.quantity).toFixed(2)}`;
     }).join('\n');
 
     const deliveryAddress = order.deliveryAddress;
@@ -1151,14 +1110,14 @@ async function sendOwnerNotificationEmail(order) {
       </head>
       <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #1f2937; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
         <div style="background-color: #dc2626; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
-          <h1 style="margin: 0; font-size: 28px;">ðŸ”” NEW ORDER RECEIVED</h1>
+          <h1 style="margin: 0; font-size: 28px;">🔔 NEW ORDER RECEIVED</h1>
           <p style="margin: 10px 0 0; font-size: 18px; font-weight: bold;">${order.orderNumber}</p>
         </div>
         
         <div style="background-color: white; padding: 30px; border-radius: 0 0 8px 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           ${RESEND_TEST_MODE ? `
           <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 0 0 20px 0;">
-            <p style="margin: 0; font-weight: bold; color: #92400e;">âš ï¸ TEST MODE</p>
+            <p style="margin: 0; font-weight: bold; color: #92400e;">⚠️ TEST MODE</p>
             <p style="margin: 5px 0 0; color: #92400e; font-size: 13px;">This email was sent to ${RESEND_TEST_EMAIL} for testing. Original recipient: ${RESTAURANT_EMAIL}</p>
           </div>
           ` : ''}
@@ -1189,15 +1148,15 @@ async function sendOwnerNotificationEmail(order) {
           <table style="width: 100%; margin: 15px 0; font-size: 16px;">
             <tr>
               <td style="padding: 8px 0; text-align: right; font-weight: bold;">Subtotal:</td>
-              <td style="padding: 8px 0 8px 20px; text-align: right; width: 100px;">â‚¬${order.subtotal.toFixed(2)}</td>
+              <td style="padding: 8px 0 8px 20px; text-align: right; width: 100px;">€${order.subtotal.toFixed(2)}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; text-align: right; font-weight: bold;">Delivery Fee:</td>
-              <td style="padding: 8px 0 8px 20px; text-align: right;">â‚¬${order.deliveryFee.toFixed(2)}</td>
+              <td style="padding: 8px 0 8px 20px; text-align: right;">€${order.deliveryFee.toFixed(2)}</td>
             </tr>
             <tr style="border-top: 2px solid #dc2626;">
               <td style="padding: 12px 0; text-align: right; font-weight: bold; font-size: 18px; color: #dc2626;">TOTAL:</td>
-              <td style="padding: 12px 0 12px 20px; text-align: right; font-size: 18px; font-weight: bold; color: #dc2626;">â‚¬${order.total.toFixed(2)}</td>
+              <td style="padding: 12px 0 12px 20px; text-align: right; font-size: 18px; font-weight: bold; color: #dc2626;">€${order.total.toFixed(2)}</td>
             </tr>
           </table>
 
@@ -1213,7 +1172,7 @@ async function sendOwnerNotificationEmail(order) {
 
           <div style="background-color: #dcfce7; border-left: 4px solid #16a34a; padding: 15px; margin: 20px 0;">
             <p style="margin: 0; font-weight: bold; color: #166534;">Payment Status:</p>
-            <p style="margin: 5px 0 0; color: #166534; font-size: 18px; font-weight: bold;">âœ“ PAID (${order.paymentMethod})</p>
+            <p style="margin: 5px 0 0; color: #166534; font-size: 18px; font-weight: bold;">✓ PAID (${order.paymentMethod})</p>
           </div>
 
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
@@ -1229,417 +1188,22 @@ async function sendOwnerNotificationEmail(order) {
     const result = await resend.emails.send({
       from: 'Namaste Orders <onboarding@resend.dev>',
       to: RESEND_TEST_MODE ? RESEND_TEST_EMAIL : RESTAURANT_EMAIL,
-      subject: `ðŸ”” NEW ORDER: ${order.orderNumber} - â‚¬${order.total.toFixed(2)}`,
+      subject: `🔔 NEW ORDER: ${order.orderNumber} - €${order.total.toFixed(2)}`,
       html: htmlContent,
     });
 
     const emailTo = RESEND_TEST_MODE ? RESEND_TEST_EMAIL : RESTAURANT_EMAIL;
-    console.log(`âœ… Owner notification email sent to ${emailTo}${RESEND_TEST_MODE ? ' (TEST MODE)' : ''}`);
+    console.log(`✅ Owner notification email sent to ${emailTo}${RESEND_TEST_MODE ? ' (TEST MODE)' : ''}`);
     if (RESEND_TEST_MODE && RESTAURANT_EMAIL !== RESEND_TEST_EMAIL) {
       console.log(`   (Original recipient: ${RESTAURANT_EMAIL})`);
     }
     return result;
   } catch (error) {
-    console.error('âŒ Error sending owner email:', error);
+    console.error('❌ Error sending owner email:', error);
     return null;
   }
 }
 
-// GET /api/stripe/config - Get publishable key for frontend
-app.get('/api/stripe/config', (req, res) => {
-  if (!stripe) {
-    return res.status(503).json({ error: 'Stripe not configured' });
-  }
-  res.json({
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-  });
-});
-
-// GET /api/stripe/health - Diagnostic endpoint (does not expose sensitive data)
-app.get('/api/stripe/health', (req, res) => {
-  const secretKeySet = !!process.env.STRIPE_SECRET_KEY;
-  const publishableKeySet = !!process.env.STRIPE_PUBLISHABLE_KEY;
-  const webhookSecretSet = !!process.env.STRIPE_WEBHOOK_SECRET;
-  
-  res.json({
-    stripeInitialized: !!stripe,
-    environment: {
-      STRIPE_SECRET_KEY: secretKeySet ? 'SET (' + process.env.STRIPE_SECRET_KEY.substring(0, 12) + '...)' : 'NOT SET',
-      STRIPE_PUBLISHABLE_KEY: publishableKeySet ? 'SET (' + process.env.STRIPE_PUBLISHABLE_KEY.substring(0, 12) + '...)' : 'NOT SET',
-      STRIPE_WEBHOOK_SECRET: webhookSecretSet ? 'SET' : 'NOT SET',
-      STRIPE_CURRENCY: process.env.STRIPE_CURRENCY || 'NOT SET',
-    },
-    secretKeyIsTestMode: process.env.STRIPE_SECRET_KEY?.includes('_test_') || false,
-    publishableKeyIsTestMode: process.env.STRIPE_PUBLISHABLE_KEY?.includes('_test_') || false,
-  });
-});
-
-// POST /api/stripe/create-checkout-session
-app.post('/api/stripe/create-checkout-session', express.json(), async (req, res) => {
-  try {
-    if (!stripe) {
-      console.error('âŒ Stripe not initialized - check STRIPE_SECRET_KEY environment variable');
-      return res.status(503).json({ 
-        error: 'Stripe not configured',
-        details: 'Payment service is not available. Please contact support.'
-      });
-    }
-    
-    if (!(await ensureDbConnection())) {
-      return res.status(503).json({ error: 'Database unavailable' });
-    }
-
-    const { orderItems, customerInfo, deliveryAddress } = req.body;
-    
-    // Debug logging
-    console.log('ðŸ” Checkout session request received');
-    console.log('Order items count:', orderItems?.length);
-    console.log('Order items:', JSON.stringify(orderItems, null, 2));
-    
-    // Validate input
-    if (!orderItems || !orderItems.length) {
-      return res.status(400).json({ error: 'Order items are required' });
-    }
-    
-    if (!customerInfo || !customerInfo.name || !customerInfo.email || !customerInfo.phone) {
-      return res.status(400).json({ error: 'Customer information is incomplete' });
-    }
-    
-    if (!deliveryAddress || !deliveryAddress.street || !deliveryAddress.city || !deliveryAddress.postalCode) {
-      return res.status(400).json({ error: 'Delivery address is incomplete' });
-    }
-    
-    // Calculate totals
-    const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
-    const deliveryFee = calculateDeliveryFee(deliveryAddress);
-    const total = subtotal + deliveryFee;
-    
-    // Create order in database
-    const orderNumber = generateOrderNumber();
-    const order = await prisma.order.create({
-      data: {
-        orderNumber,
-        customerName: customerInfo.name,
-        customerEmail: customerInfo.email,
-        customerPhone: customerInfo.phone,
-        deliveryAddress: deliveryAddress,
-        orderItems: orderItems,
-        subtotal: subtotal,
-        deliveryFee: deliveryFee,
-        total: total,
-        status: 'PENDING',
-        paymentStatus: 'PENDING',
-        paymentMethod: 'STRIPE_CARD',
-      },
-    });
-    
-    // Create line items for Stripe Checkout
-    console.log('ðŸ” Creating line items for Stripe...');
-    const lineItems = orderItems.map((item, index) => {
-      console.log(`Item ${index}:`, {
-        name: item.name,
-        quantity: item.quantity,
-        totalPrice: item.totalPrice,
-        price: item.price,
-        spiceLevel: item.spiceLevel,
-      });
-      
-      // Validate required fields
-      if (!item.name) {
-        throw new Error(`Item at index ${index} is missing name`);
-      }
-      if (!item.quantity || item.quantity <= 0) {
-        throw new Error(`Item at index ${index} has invalid quantity: ${item.quantity}`);
-      }
-      if (!item.totalPrice && !item.price) {
-        throw new Error(`Item at index ${index} is missing price information`);
-      }
-      
-      const productData = {
-        name: item.name,
-      };
-      
-      // Only add description if spiceLevel exists
-      if (item.spiceLevel !== undefined && item.spiceLevel !== null) {
-        productData.description = `Spice Level: ${item.spiceLevel}`;
-      }
-      
-      const unitPrice = item.totalPrice ? item.totalPrice / item.quantity : item.price;
-      const unitAmount = Math.round(unitPrice * 100);
-      
-      console.log(`  â†’ Unit amount: ${unitAmount} cents (â‚¬${(unitAmount / 100).toFixed(2)})`);
-      
-      return {
-        price_data: {
-          currency: process.env.STRIPE_CURRENCY || 'eur',
-          unit_amount: unitAmount,
-          product_data: productData,
-        },
-        quantity: item.quantity,
-      };
-    });
-    
-    console.log('âœ… Line items created:', lineItems.length);
-    
-    // Add delivery fee as a line item
-    if (deliveryFee > 0) {
-      lineItems.push({
-        price_data: {
-          currency: process.env.STRIPE_CURRENCY || 'eur',
-          unit_amount: Math.round(deliveryFee * 100),
-          product_data: {
-            name: 'Delivery Fee',
-            description: 'Home delivery service',
-          },
-        },
-        quantity: 1,
-      });
-    }
-    
-    // Get the base URL for redirects
-    const baseUrl = process.env.FRONTEND_URL || 'https://www.namastecurry.house';
-    
-    // Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: `${baseUrl}/order-confirmation?session_id={CHECKOUT_SESSION_ID}&order_number=${order.orderNumber}`,
-      cancel_url: `${baseUrl}/checkout?canceled=true`,
-      customer_email: customerInfo.email,
-      client_reference_id: order.id.toString(),
-      metadata: {
-        orderId: order.id.toString(),
-        orderNumber: order.orderNumber,
-        customerPhone: customerInfo.phone,
-      },
-      billing_address_collection: 'auto',
-      shipping_address_collection: {
-        allowed_countries: ['PT'], // Portugal only for now
-      },
-      payment_intent_data: {
-        receipt_email: customerInfo.email, // Ensure receipt email is sent
-      },
-    });
-    
-    // Update order with session ID
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { 
-        stripePaymentIntentId: session.payment_intent, // Will be set after payment
-        stripeSessionId: session.id 
-      },
-    });
-    
-    console.log(`âœ… Checkout session created for order ${order.orderNumber}`);
-    
-    res.json({
-      sessionId: session.id,
-      url: session.url,
-      orderId: order.id,
-      orderNumber: order.orderNumber,
-      amount: total,
-    });
-    
-  } catch (error) {
-    console.error('âŒ Error creating checkout session:', error);
-    console.error('Error details:', {
-      message: error.message,
-      type: error.type,
-      code: error.code,
-      stack: error.stack?.split('\n').slice(0, 3).join('\n')
-    });
-    
-    res.status(500).json({ 
-      error: 'Failed to create checkout session',
-      details: error.message || 'An unexpected error occurred'
-    });
-  }
-});
-
-// POST /api/stripe/webhook - DISABLED: Use dedicated serverless function at api/stripe/webhook.js
-app.post('/api/stripe/webhook', express.json(), async (req, res) => {
-  console.error('âŒ WRONG ENDPOINT: This Express webhook handler should not be called!');
-  console.error('   Stripe should be calling the dedicated serverless function at api/stripe/webhook.js');
-  console.error('   If you see this message, the routing is wrong or the serverless function failed to load.');
-  
-  return res.status(500).json({ 
-    error: 'Wrong webhook endpoint - use dedicated serverless function',
-    message: 'This Express endpoint is disabled. The webhook should be handled by api/stripe/webhook.js',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Helper: Handle checkout session completed
-async function handleCheckoutSessionCompleted(session) {
-  try {
-    console.log(`ðŸ“§ [WEBHOOK] Checkout session completed: ${session.id}`);
-    console.log(`   Payment Status: ${session.payment_status}`);
-    console.log(`   Payment Intent: ${session.payment_intent}`);
-    
-    console.log('ðŸ”Œ Checking database connection...');
-    if (!(await ensureDbConnection())) {
-      console.error('âŒ [WEBHOOK] Database unavailable for checkout session handling');
-      return;
-    }
-    console.log('âœ… Database connected');
-
-    // Find order by session ID
-    console.log(`ðŸ” [WEBHOOK] Looking for order with session ID: ${session.id}`);
-    const order = await prisma.order.findFirst({
-      where: { stripeSessionId: session.id },
-    });
-    
-    if (order) {
-      console.log(`âœ… [WEBHOOK] Found order: ${order.orderNumber} (DB ID: ${order.id})`);
-      console.log(`   Current Status: ${order.status}`);
-      console.log(`   Current Payment: ${order.paymentStatus}`);
-      
-      console.log('ðŸ’¾ [WEBHOOK] Updating order to CONFIRMED...');
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          paymentStatus: 'SUCCEEDED',
-          status: 'CONFIRMED',
-          confirmedAt: new Date(),
-          stripePaymentIntentId: session.payment_intent,
-        },
-      });
-      console.log(`âœ… [WEBHOOK] Order ${order.orderNumber} updated to CONFIRMED`);
-      
-      // Get updated order with all details
-      console.log('ðŸ“‹ [WEBHOOK] Fetching updated order details...');
-      const updatedOrder = await prisma.order.findUnique({
-        where: { id: order.id },
-      });
-      
-      console.log(`ðŸ“§ [WEBHOOK] Preparing to send notifications for order ${updatedOrder.orderNumber}...`);
-      console.log(`   Customer email: ${updatedOrder.customerEmail}`);
-      console.log(`   Resend configured: ${resend ? 'YES' : 'NO'}`);
-      console.log(`   Test mode: ${RESEND_TEST_MODE}`);
-      console.log(`   Test email: ${RESEND_TEST_EMAIL}`);
-      
-      // Send WhatsApp notification to restaurant
-      console.log('ðŸ“± [WEBHOOK] Logging WhatsApp notification...');
-      logWhatsAppNotification(updatedOrder);
-      
-      // Send email notifications
-      console.log('ðŸ“§ [WEBHOOK] Sending customer confirmation email...');
-      try {
-        const customerEmailResult = await sendCustomerConfirmationEmail(updatedOrder);
-        console.log(`   âœ… Customer email result:`, customerEmailResult ? 'SUCCESS' : 'FAILED');
-      } catch (emailError) {
-        console.error('   âŒ Customer email error:', emailError.message);
-      }
-      
-      console.log('ðŸ“§ [WEBHOOK] Sending owner notification email...');
-      try {
-        const ownerEmailResult = await sendOwnerNotificationEmail(updatedOrder);
-        console.log(`   âœ… Owner email result:`, ownerEmailResult ? 'SUCCESS' : 'FAILED');
-      } catch (emailError) {
-        console.error('   âŒ Owner email error:', emailError.message);
-      }
-      
-      console.log('âœ… [WEBHOOK] All notifications sent successfully');
-    } else {
-      console.warn(`âš ï¸  [WEBHOOK] Order not found for session: ${session.id}`);
-    }
-  } catch (error) {
-    console.error('âŒ [WEBHOOK] Error handling checkout session:', error);
-    console.error('   Stack trace:', error.stack);
-  }
-}
-
-// Helper: Handle successful payment
-async function handlePaymentSuccess(paymentIntent) {
-  try {
-    if (!(await ensureDbConnection())) {
-      console.error('Database unavailable for payment success handling');
-      return;
-    }
-
-    const order = await prisma.order.findFirst({
-      where: { stripePaymentIntentId: paymentIntent.id },
-    });
-    
-    if (order) {
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          paymentStatus: 'SUCCEEDED',
-          status: 'CONFIRMED',
-          confirmedAt: new Date(),
-        },
-      });
-      
-      console.log(`âœ… Payment succeeded for order ${order.orderNumber}`);
-      
-      // Get updated order with all details
-      const updatedOrder = await prisma.order.findUnique({
-        where: { id: order.id },
-      });
-      
-      // Send WhatsApp notification to restaurant
-      logWhatsAppNotification(updatedOrder);
-      
-      // Send email notifications
-      await sendCustomerConfirmationEmail(updatedOrder);
-      await sendOwnerNotificationEmail(updatedOrder);
-    }
-  } catch (error) {
-    console.error('Error handling payment success:', error);
-  }
-}
-
-// Helper: Handle failed payment
-async function handlePaymentFailure(paymentIntent) {
-  try {
-    if (!(await ensureDbConnection())) {
-      console.error('Database unavailable for payment failure handling');
-      return;
-    }
-
-    const order = await prisma.order.findFirst({
-      where: { stripePaymentIntentId: paymentIntent.id },
-    });
-    
-    if (order) {
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          paymentStatus: 'FAILED',
-          status: 'CANCELLED',
-        },
-      });
-      
-      console.log(`âŒ Payment failed for order ${order.orderNumber}`);
-    }
-  } catch (error) {
-    console.error('Error handling payment failure:', error);
-  }
-}
-
-// Helper: Handle charge success (for charge ID)
-async function handleChargeSuccess(charge) {
-  try {
-    if (!(await ensureDbConnection())) {
-      return;
-    }
-
-    const order = await prisma.order.findFirst({
-      where: { stripePaymentIntentId: charge.payment_intent },
-    });
-    
-    if (order) {
-      await prisma.order.update({
-        where: { id: order.id },
-        data: { stripeChargeId: charge.id },
-      });
-    }
-  } catch (error) {
-    console.error('Error handling charge success:', error);
-  }
-}
 
 // GET /api/orders - Get all orders (for admin)
 app.get('/api/orders', async (req, res) => {
@@ -1756,7 +1320,7 @@ app.post('/api/orders/:id/send-emails', express.json(), async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    console.log(`ðŸ“§ Manual email trigger for order ${order.orderNumber}...`);
+    console.log(`📧 Manual email trigger for order ${order.orderNumber}...`);
     
     const results = {
       orderNumber: order.orderNumber,
@@ -1767,7 +1331,7 @@ app.post('/api/orders/:id/send-emails', express.json(), async (req, res) => {
     };
 
     // Send customer confirmation email
-    console.log('ðŸ“§ Sending customer confirmation email...');
+    console.log('📧 Sending customer confirmation email...');
     const customerResult = await sendCustomerConfirmationEmail(order);
     results.customerEmail = {
       sent: Boolean(customerResult),
@@ -1775,7 +1339,7 @@ app.post('/api/orders/:id/send-emails', express.json(), async (req, res) => {
     };
 
     // Send owner notification email
-    console.log('ðŸ“§ Sending owner notification email...');
+    console.log('📧 Sending owner notification email...');
     const ownerResult = await sendOwnerNotificationEmail(order);
     results.ownerEmail = {
       sent: Boolean(ownerResult),
@@ -1820,7 +1384,7 @@ app.post('/api/orders/whatsapp', express.json(), async (req, res) => {
       },
     });
     
-    console.log(`ðŸ“± WhatsApp order created: ${order.orderNumber}`);
+    console.log(`📲 WhatsApp order created: ${order.orderNumber}`);
     
     res.json({ success: true, order });
   } catch (error) {
@@ -1897,7 +1461,7 @@ app.post('/api/admin/store-status', express.json(), async (req, res) => {
       }
     });
 
-    console.log(`ðŸª Store status updated: ${isOpen ? 'OPEN' : 'CLOSED'} by ${updatedBy || 'admin'}`);
+    console.log(`🚪 Store status updated: ${isOpen ? 'OPEN' : 'CLOSED'} by ${updatedBy || 'admin'}`);
     
     res.json(status);
   } catch (error) {
@@ -1908,7 +1472,7 @@ app.post('/api/admin/store-status', express.json(), async (req, res) => {
 
 // Test endpoint for debugging
 app.get('/test', (req, res) => {
-  console.log('ðŸ§ª Test endpoint hit!');
+  console.log('🧪 Test endpoint hit!');
   res.json({ ok: true, message: 'Server is working!' });
 });
 
@@ -1950,5 +1514,3 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
     process.exit(0);
   });
 }
-
-

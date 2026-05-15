@@ -1,7 +1,6 @@
 import { MenuItem } from './menu';
 
 export interface CartCustomization {
-  spiceLevel?: number; // 0-100 percentage
   specialInstructions?: string;
   extras?: string[];
 }
