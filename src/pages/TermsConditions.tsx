@@ -12,7 +12,7 @@ const TermsConditions = () => {
                 <strong>Last Updated:</strong> November 3, 2025
               </p>
               <p className="text-foreground/80 leading-relaxed">
-                Welcome to SHOPSPHERE. By accessing and using our website and services, 
+                Welcome to LUXURY LINE. By accessing and using our website and services, 
                 you agree to be bound by these Terms and Conditions. Please read them carefully.
               </p>
             </CardContent>
@@ -25,7 +25,7 @@ const TermsConditions = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 These terms govern your use of our website, online ordering system, and services provided by 
-                SHOPSPHERE, located at R. Agostinho Louren�o 339, 1000-011 Lisboa, Portugal.
+                LUXURY LINE, located at R. Agostinho Louren�o 339, 1000-011 Lisboa, Portugal.
               </p>
               <p>
                 By placing an order, you confirm that you are at least 18 years of age and have the legal 
@@ -119,7 +119,7 @@ const TermsConditions = () => {
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
                 All content on our website, including text, images, logos, and design elements, is the property 
-                of SHOPSPHERE or its licensors and is protected by copyright and trademark laws.
+                of LUXURY LINE or its licensors and is protected by copyright and trademark laws.
               </p>
               <p>
                 You may not reproduce, distribute, modify, or create derivative works from any content without 
@@ -134,7 +134,7 @@ const TermsConditions = () => {
             </CardHeader>
             <CardContent className="space-y-3 text-foreground/80 leading-relaxed">
               <p>
-                To the fullest extent permitted by law, SHOPSPHERE shall not be liable for any indirect, 
+                To the fullest extent permitted by law, LUXURY LINE shall not be liable for any indirect, 
                 incidental, special, or consequential damages arising from your use of our services.
               </p>
               <p>
@@ -183,7 +183,7 @@ const TermsConditions = () => {
               <ul className="list-none space-y-2 mt-4">
                 <li><strong>Address:</strong> R. Agostinho Lourenço 339, 1000-011 Lisboa, Portugal</li>
                 <li><strong>Phone:</strong> +351 920 617 185</li>
-                <li><strong>Email:</strong> support@shopsphere.app</li>
+                <li><strong>Email:</strong> support@luxury-line.app</li>
               </ul>
             </CardContent>
           </Card>

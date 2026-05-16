@@ -1,4 +1,4 @@
-// server/index.js - Express API server for ShopSphere (SHOPSPHERE)
+// server/index.js - Express API server for Luxury Line (LUXURY LINE)
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
@@ -19,9 +19,9 @@ const prisma = new PrismaClient({
   log: ['warn', 'error']
 });
 
-// ShopSphere contact info
+// Luxury Line contact info
 const RESTAURANT_WHATSAPP = process.env.RESTAURANT_WHATSAPP || '+351920617185';
-const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@shopsphere.app';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'support@luxury-line.app';
 
 // RESEND TEST MODE: Send all emails to account owner until domain is verified
 // Set to true to test email flow, false for production with verified domain

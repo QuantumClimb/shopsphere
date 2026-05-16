@@ -15,10 +15,10 @@ export const Footer = () => {
             <div className="flex items-center justify-center md:justify-start space-x-3 mb-4">
               <img 
                 src="/logo.png" 
-                alt="SHOPSPHERE Logo" 
+                alt="LUXURY LINE Logo" 
                 className="h-12 w-12 object-contain"
               />
-              <span className="text-3xl font-bold text-gray-900 dark:text-gray-500" style={{ fontFamily: 'Forum, serif' }}>SHOPSPHERE</span>
+              <span className="text-3xl font-bold text-gray-900 dark:text-gray-500" style={{ fontFamily: 'Forum, serif' }}>LUXURY LINE</span>
             </div>
             <p className="mb-6 max-w-md mx-auto md:mx-0 text-gray-600 dark:text-gray-500">
               {t('footer.aboutText')}
@@ -55,7 +55,7 @@ export const Footer = () => {
 
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
           <p className="text-gray-600">
-            © 2025 SHOPSPHERE. All rights reserved.
+            © 2025 LUXURY LINE. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm mt-2">
             {t('footer.poweredBy')}

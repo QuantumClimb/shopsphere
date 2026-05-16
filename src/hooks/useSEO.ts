@@ -16,7 +16,7 @@ export const useSEO = ({
   keywords,
   ogTitle,
   ogDescription,
-  ogImage = 'https://www.shopsphere.com/share-image.png',
+  ogImage = 'https://www.luxury-line.com/share-image.png',
   canonicalUrl
 }: SEOProps) => {
   useEffect(() => {
@@ -69,7 +69,7 @@ export const useSEO = ({
 
     // Cleanup function to reset to default on unmount
     return () => {
-      document.title = 'SHOPSPHERE';
+      document.title = 'LUXURY LINE';
     };
   }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonicalUrl]);
 };

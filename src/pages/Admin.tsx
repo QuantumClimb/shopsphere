@@ -8,8 +8,8 @@ import CategoryManagement from "@/components/admin/CategoryManagement";
 import RepositoryManagement from "@/components/admin/RepositoryManagement";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const ADMIN_USER = "ShopSphereAdmin";
-const ADMIN_PASS = "shopsphere2026";
+const ADMIN_USER = "Luxury LineAdmin";
+const ADMIN_PASS = "luxury-line2026";
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
 export default function Admin() {
@@ -31,7 +31,7 @@ export default function Admin() {
   const [activeView, setActiveView] = useState<"dashboard" | "inventory" | "categories" | "repository">(getActiveViewFromUrl());
 
   const isSessionValid = (): boolean => {
-    const loginTime = localStorage.getItem("shopsphere-admin-login-time");
+    const loginTime = localStorage.getItem("luxury-line-admin-login-time");
     if (!loginTime) return false;
     const elapsed = Date.now() - parseInt(loginTime);
     return elapsed < SESSION_TIMEOUT;
@@ -41,7 +41,7 @@ export default function Admin() {
     if (username === ADMIN_USER && password === ADMIN_PASS) {
       setLoggedIn(true);
       setError("");
-      localStorage.setItem("shopsphere-admin-login-time", Date.now().toString());
+      localStorage.setItem("luxury-line-admin-login-time", Date.now().toString());
     } else {
       setError("Invalid credentials");
     }
@@ -52,7 +52,7 @@ export default function Admin() {
     setUsername("");
     setPassword("");
     setActiveViewWithUrl("dashboard");
-    localStorage.removeItem("shopsphere-admin-login-time");
+    localStorage.removeItem("luxury-line-admin-login-time");
   };
 
   const setActiveViewWithUrl = (view: "dashboard" | "inventory" | "categories" | "repository") => {
@@ -76,7 +76,7 @@ export default function Admin() {
     if (isSessionValid()) setLoggedIn(true);
     else {
       setLoggedIn(false);
-      localStorage.removeItem("shopsphere-admin-login-time");
+      localStorage.removeItem("luxury-line-admin-login-time");
     }
   }, []);
 
@@ -214,8 +214,8 @@ export default function Admin() {
             <Button onClick={handleLogin} className="w-full">Login</Button>
             <div className="text-center text-sm text-foreground/60">
               <p>Demo credentials:</p>
-              <p>Username: ShopSphereAdmin</p>
-              <p>Password: shopsphere2026</p>
+              <p>Username: Luxury LineAdmin</p>
+              <p>Password: luxury-line2026</p>
             </div>
           </CardContent>
         </Card>

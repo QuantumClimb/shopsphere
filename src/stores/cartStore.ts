@@ -168,7 +168,7 @@ const useCartStore = create<ExtendedCartStore>()(
       },
     }),
     {
-      name: 'shopsphere-cart',
+      name: 'luxury-line-cart',
       version: 1,
     }
   )

@@ -1,87 +1,70 @@
-// Prisma schema for SHOPSPHERE Perfume Store (Production - PostgreSQL/Neon)
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model ProductCategory {
-  id               Int                @id @default(autoincrement())
+  id               Int               @id @default(autoincrement())
   name             String
-  products         Product[]
   masterFragrances MasterFragrance[]
+  products         Product[]
 }
 
 model MasterFragrance {
-  id                Int              @id @default(autoincrement())
-  name              String
-  brand             String?
-  description       String?
-  price             Float?           // Suggested/Standard price
-  volume            Float?           // Volume in ml
-  concentration     String?          // EDP, EDT, etc.
-  gender            String?          // Male, Female, Unisex
-  fragranceFamily   String?          
-  topNotes          String?          
-  middleNotes       String?          
-  baseNotes         String?          
-  
-  categoryId        Int
-  category          ProductCategory  @relation(fields: [categoryId], references: [id])
-  
-  imageUrl          String?          
-  imageData         String?          
-  imageMimeType     String?          
-  imageSize         Int?             
-  
-  products          Product[]        // Live products created from this master
-  
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id              Int             @id @default(autoincrement())
+  name            String
+  brand           String?
+  description     String?
+  price           Float?
+  volume          Float?
+  concentration   String?
+  gender          String?
+  fragranceFamily String?
+  topNotes        String?
+  middleNotes     String?
+  baseNotes       String?
+  categoryId      Int
+  imageUrl        String?
+  imageData       String?
+  imageMimeType   String?
+  imageSize       Int?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  category        ProductCategory @relation(fields: [categoryId], references: [id])
+  products        Product[]
 }
 
 model Product {
   id                Int              @id @default(autoincrement())
   name              String
-  namePt            String?          // Portuguese translation (legacy)
+  namePt            String?
   description       String
-  descriptionPt     String?          // Portuguese translation (legacy)
+  descriptionPt     String?
   price             Float
-  
-  // Perfume-specific fields
   brand             String?
-  volume            Float?           
-  concentration     String?          
-  gender            String?          
-  fragranceFamily   String?          
-  topNotes          String?          
-  middleNotes       String?          
-  baseNotes         String?          
-  
-  // Inventory
+  volume            Float?
+  concentration     String?
+  gender            String?
+  fragranceFamily   String?
+  topNotes          String?
+  middleNotes       String?
+  baseNotes         String?
   stockQuantity     Int              @default(0)
   inStock           Boolean          @default(true)
-  
-  // Category
   categoryId        Int
-  category          ProductCategory  @relation(fields: [categoryId], references: [id])
-  
-  // Repository Link
-  masterFragranceId Int?
-  masterFragrance   MasterFragrance? @relation(fields: [masterFragranceId], references: [id])
-  
-  // Images
-  imageUrl          String?          
-  imageData         String?          
-  imageMimeType     String?          
-  imageSize         Int?             
-  
+  imageUrl          String?
+  imageData         String?
+  imageMimeType     String?
+  imageSize         Int?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
+  masterFragranceId Int?
+  category          ProductCategory  @relation(fields: [categoryId], references: [id])
+  masterFragrance   MasterFragrance? @relation(fields: [masterFragranceId], references: [id])
 }
 
 model Customer {
@@ -89,85 +72,73 @@ model Customer {
   name      String
   email     String   @unique
   phone     String
-  addresses Json     // Array of delivery addresses
-  orders    Order[]
+  addresses Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  orders    Order[]
 }
 
 model Order {
-  id                    Int           @id @default(autoincrement())
-  orderNumber           String        @unique // e.g., "ORD-20251102-001"
-  
-  // Customer Information
-  customerId            Int?
-  customer              Customer?     @relation(fields: [customerId], references: [id])
-  customerName          String
-  customerEmail         String
-  customerPhone         String
-  
-  // Delivery Information
-  deliveryAddress       Json          // {street, apartment, city, postalCode, country}
-  deliveryInstructions  String?
-  
-  // Order Details
-  orderItems            Json          // Array of cart items with quantities, customizations
-  subtotal              Float
-  deliveryFee           Float         @default(0)
-  total                 Float
-  
-  // Status
-  status                OrderStatus   @default(PENDING)
-  paymentStatus         PaymentStatus @default(PENDING)
-  
-  // Payment Information
-  paymentMethod         PaymentMethod
-  razorpayOrderId       String?       @unique  // Razorpay Order ID
-  razorpayPaymentId     String?       @unique  // Razorpay Payment ID
-  razorpaySignature     String?                // Payment verification signature
-  
-  // Timestamps
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
-  confirmedAt           DateTime?
-  completedAt           DateTime?
-  
+  id                   Int           @id @default(autoincrement())
+  orderNumber          String        @unique
+  customerId           Int?
+  customerName         String
+  customerEmail        String
+  customerPhone        String
+  deliveryAddress      Json
+  deliveryInstructions String?
+  orderItems           Json
+  subtotal             Float
+  deliveryFee          Float         @default(0)
+  total                Float
+  status               OrderStatus   @default(PENDING)
+  paymentStatus        PaymentStatus @default(PENDING)
+  paymentMethod        PaymentMethod
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  confirmedAt          DateTime?
+  completedAt          DateTime?
+  razorpayOrderId      String?       @unique
+  razorpayPaymentId    String?       @unique
+  razorpaySignature    String?
+  customer             Customer?     @relation(fields: [customerId], references: [id])
+
   @@index([orderNumber])
   @@index([customerEmail])
   @@index([status])
   @@index([createdAt])
 }
 
+model StoreStatus {
+  id            Int       @id @default(1)
+  isOpen        Boolean   @default(true)
+  closedMessage String?
+  reopenTime    DateTime?
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+
+  @@map("store_status")
+}
+
 enum OrderStatus {
-  PENDING       // Order created, payment pending
-  CONFIRMED     // Payment received
-  PROCESSING    // Order being processed
-  SHIPPED       // Package shipped
-  DELIVERED     // Successfully delivered
-  CANCELLED     // Order cancelled
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }
 
 enum PaymentStatus {
-  PENDING       // Awaiting payment
-  PROCESSING    // Payment being processed
-  SUCCEEDED     // Payment successful
-  FAILED        // Payment failed
-  REFUNDED      // Payment refunded
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  REFUNDED
 }
 
 enum PaymentMethod {
-  RAZORPAY      // Razorpay payment gateway
-  CASH          // Cash on delivery
-  BANK_TRANSFER // Bank transfer
-}
-
-model StoreStatus {
-  id             Int       @id @default(1) // Single row table
-  isOpen         Boolean   @default(true)
-  closedMessage  String?   // Custom message to display when closed
-  reopenTime     DateTime? // Expected reopening time
-  updatedAt      DateTime  @updatedAt
-  updatedBy      String?   // Admin user who made the change
-  
-  @@map("store_status")
+  RAZORPAY
+  CASH
+  BANK_TRANSFER
 }

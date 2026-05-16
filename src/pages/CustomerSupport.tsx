@@ -48,7 +48,7 @@ const CustomerSupport = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xl font-semibold text-primary mb-2">support@shopsphere.app</p>
+                <p className="text-xl font-semibold text-primary mb-2">support@luxury-line.app</p>
                 <p className="text-foreground/70">
                   {t('customerSupport.emailDescription')}
                 </p>

@@ -149,7 +149,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     const grandTotal = total / 100 + 2.50;
     
     const message = encodeURIComponent(
-      `Hi SHOPSPHERE! I would like to book the following items:\n\n` +
+      `Hi LUXURY LINE! I would like to book the following items:\n\n` +
       `${itemList}\n\n` +
       `Subtotal: ₹${(total / 100).toFixed(2)}\n` +
       `Delivery Fee: ₹2.50\n` +
