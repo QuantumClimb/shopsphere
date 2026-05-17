@@ -109,17 +109,20 @@ export default function RepositoryManagement({ onClose }: RepositoryManagementPr
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = async (): Promise<string | null> => {
+  const uploadImage = async (): Promise<{imageData: string, imageMimeType: string, imageSize: number} | null> => {
     if (!imageFile) return null;
     setUploading(true);
     const fd = new FormData();
     fd.append('image', imageFile);
     try {
       const response = await fetch(`${API_BASE_URL}/admin/upload-image`, { method: 'POST', body: fd });
-      if (!response.ok) throw new Error('Upload failed');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || 'Upload failed');
+      }
       const data = await response.json();
       setUploading(false);
-      return data.imageUrl;
+      return data;
     } catch (err) { setUploading(false); throw err; }
   };
 
@@ -128,11 +131,28 @@ export default function RepositoryManagement({ onClose }: RepositoryManagementPr
     setError(null);
     try {
       let finalImageUrl = formData.imageUrl;
+      let finalImageData = undefined;
+      let finalImageMimeType = undefined;
+      let finalImageSize = undefined;
+      
       if (imageFile) {
-        const uploadedUrl = await uploadImage();
-        if (uploadedUrl) finalImageUrl = uploadedUrl;
+        const uploadResult = await uploadImage();
+        if (uploadResult) {
+          finalImageData = uploadResult.imageData;
+          finalImageMimeType = uploadResult.imageMimeType;
+          finalImageSize = uploadResult.imageSize;
+          finalImageUrl = ""; // Clear static URL so it uses the DB image
+        }
       }
-      const submitData = { ...formData, price: parseFloat(formData.price), volume: parseFloat(formData.volume), imageUrl: finalImageUrl };
+      const submitData = { 
+        ...formData, 
+        price: parseFloat(formData.price), 
+        volume: parseFloat(formData.volume), 
+        imageUrl: finalImageUrl,
+        imageData: finalImageData,
+        imageMimeType: finalImageMimeType,
+        imageSize: finalImageSize
+      };
       const url = editingItem ? `${API_BASE_URL}/admin/repository/${editingItem.id}` : `${API_BASE_URL}/admin/repository`;
       const response = await fetch(url, {
         method: editingItem ? 'PUT' : 'POST',
@@ -143,7 +163,7 @@ export default function RepositoryManagement({ onClose }: RepositoryManagementPr
       fetchItems();
       resetForm();
       setIsDialogOpen(false);
-    } catch (err) { setError('Failed to save'); }
+    } catch (err) { setError(err instanceof Error ? err.message : 'Failed to save'); }
   };
 
   const handleAddToStock = async () => {
@@ -180,7 +200,7 @@ export default function RepositoryManagement({ onClose }: RepositoryManagementPr
       categoryId: item.categoryId.toString(),
       imageUrl: item.imageUrl || ""
     });
-    setImagePreview(item.imageUrl ? `${SERVER_BASE_URL}${item.imageUrl}` : "");
+    setImagePreview(item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${SERVER_BASE_URL}${item.imageUrl}`) : "");
     setIsDialogOpen(true);
   };
 
@@ -304,7 +324,7 @@ export default function RepositoryManagement({ onClose }: RepositoryManagementPr
                 <TableRow key={item.id}>
                   <TableCell>
                     <div className="w-12 h-16 rounded border bg-muted/20 flex items-center justify-center overflow-hidden">
-                      {item.imageUrl ? <img src={`${SERVER_BASE_URL}${item.imageUrl}`} className="w-full h-full object-contain p-1" /> : <Search className="w-4 h-4 opacity-20" />}
+                      {item.imageUrl ? <img src={item.imageUrl.startsWith('http') ? item.imageUrl : `${SERVER_BASE_URL}${item.imageUrl}`} className="w-full h-full object-contain p-1" /> : <Search className="w-4 h-4 opacity-20" />}
                     </div>
                   </TableCell>
                   <TableCell>

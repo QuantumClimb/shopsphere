@@ -92,29 +92,13 @@ async function ensureDbConnection(force = false) {
   }
 }
 
-// Configure multer for file system storage (saves to public/images/fragrances/)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadsDir = path.join(process.cwd(), 'public', 'images', 'fragrances');
-    // Create directory if it doesn't exist
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    // Generate unique filename: timestamp-originalname
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    const nameWithoutExt = path.basename(file.originalname, ext);
-    cb(null, `${nameWithoutExt}-${uniqueSuffix}${ext}`);
-  }
-});
+// Configure multer for memory storage (works on Vercel)
+const storage = multer.memoryStorage();
 
 const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: 350 * 1024 // 350KB limit (allows 250KB + base64 expansion buffer)
+    fileSize: 5 * 1024 * 1024 // 5MB limit
   },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -340,6 +324,43 @@ app.get('/api/menu/category/:categoryName', async (req, res) => {
   } catch (error) {
     console.error('Error fetching category:', error);
     res.status(500).json({ error: 'Failed to fetch category data' });
+  }
+});
+
+// Serve images from database
+app.get('/api/images/product/:id', async (req, res) => {
+  try {
+    if (!(await ensureDbConnection())) return res.status(503).end();
+    const product = await prisma.product.findUnique({
+      where: { id: Number.parseInt(req.params.id) },
+      select: { imageData: true, imageMimeType: true }
+    });
+    if (!product || !product.imageData) return res.status(404).end();
+    
+    const buffer = Buffer.from(product.imageData, 'base64');
+    res.setHeader('Content-Type', product.imageMimeType || 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    res.send(buffer);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+app.get('/api/images/master/:id', async (req, res) => {
+  try {
+    if (!(await ensureDbConnection())) return res.status(503).end();
+    const mf = await prisma.masterFragrance.findUnique({
+      where: { id: Number.parseInt(req.params.id) },
+      select: { imageData: true, imageMimeType: true }
+    });
+    if (!mf || !mf.imageData) return res.status(404).end();
+    
+    const buffer = Buffer.from(mf.imageData, 'base64');
+    res.setHeader('Content-Type', mf.imageMimeType || 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    res.send(buffer);
+  } catch (err) {
+    res.status(500).end();
   }
 });
 
@@ -576,7 +597,7 @@ app.post('/api/admin/menu-items', async (req, res) => {
       name, namePt, description, descriptionPt, price, 
       categoryId, imageUrl, brand, volume, concentration, 
       gender, fragranceFamily, topNotes, middleNotes, baseNotes,
-      stockQuantity, inStock 
+      stockQuantity, inStock, imageData, imageMimeType, imageSize 
     } = req.body;
     
     const newItem = await prisma.product.create({
@@ -598,14 +619,23 @@ app.post('/api/admin/menu-items', async (req, res) => {
         inStock: inStock !== undefined ? inStock : true,
         categoryId: Number.parseInt(categoryId),
         imageUrl: imageUrl || null,
-        imageData: null,
-        imageMimeType: null,
-        imageSize: null
+        imageData: imageData || null,
+        imageMimeType: imageMimeType || null,
+        imageSize: imageSize ? Number.parseInt(imageSize) : null
       },
       include: {
         category: true
       }
     });
+
+    if (imageData) {
+      const generatedUrl = `/api/images/product/${newItem.id}`;
+      await prisma.product.update({
+        where: { id: newItem.id },
+        data: { imageUrl: generatedUrl }
+      });
+      newItem.imageUrl = generatedUrl;
+    }
 
     res.json({
       id: newItem.id.toString(),
@@ -645,7 +675,7 @@ app.put('/api/admin/menu-items/:id', async (req, res) => {
       name, namePt, description, descriptionPt, price, 
       categoryId, imageUrl, brand, volume, concentration, 
       gender, fragranceFamily, topNotes, middleNotes, baseNotes,
-      stockQuantity, inStock 
+      stockQuantity, inStock, imageData, imageMimeType, imageSize 
     } = req.body;
     
     const updatedItem = await prisma.product.update({
@@ -667,10 +697,13 @@ app.put('/api/admin/menu-items/:id', async (req, res) => {
         stockQuantity: stockQuantity ? Number.parseInt(stockQuantity) : 0,
         inStock: inStock !== undefined ? inStock : true,
         categoryId: Number.parseInt(categoryId),
-        imageUrl: imageUrl || null,
-        imageData: null,
-        imageMimeType: null,
-        imageSize: null
+        ...(imageUrl !== undefined && { imageUrl: imageUrl || null }),
+        ...(imageData !== undefined && { 
+          imageData: imageData || null,
+          imageMimeType: imageMimeType || null,
+          imageSize: imageSize ? Number.parseInt(imageSize) : null,
+          imageUrl: imageData ? `/api/images/product/${id}` : null
+        })
       },
       include: {
         category: true
@@ -733,14 +766,14 @@ app.delete('/api/admin/menu-items/:id', async (req, res) => {
   }
 });
 
-// Image upload endpoint - stores as file in public/images/fragrances/
+// Image upload endpoint - parses in memory and returns base64
 app.post('/api/admin/upload-image', (req, res) => {
   upload.single('image')(req, res, async (err) => {
     // Handle multer errors specifically
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({ 
-          error: 'Image too large. Maximum file size is 250KB.' 
+          error: 'Image too large. Maximum file size is 5MB.' 
         });
       }
       if (err.message.includes('Only JPEG, PNG, WebP')) {
@@ -758,14 +791,14 @@ app.post('/api/admin/upload-image', (req, res) => {
         return res.status(400).json({ error: 'No image file provided' });
       }
 
-      // Generate the public URL path
-      const imageUrl = `/images/fragrances/${req.file.filename}`;
+      // Return the base64 encoded data to the client
+      const imageData = req.file.buffer.toString('base64');
 
       res.json({ 
-        imageUrl,
+        imageData,
         imageMimeType: req.file.mimetype,
         imageSize: req.file.size,
-        message: 'Image uploaded successfully'
+        message: 'Image processed successfully'
       });
     } catch (error) {
       console.error('Error processing image:', error);
@@ -835,10 +868,20 @@ app.post('/api/admin/repository', async (req, res) => {
         ...data,
         price: data.price ? Number.parseFloat(data.price) : null,
         volume: data.volume ? Number.parseFloat(data.volume) : null,
-        categoryId: Number.parseInt(data.categoryId)
+        categoryId: Number.parseInt(data.categoryId),
+        imageSize: data.imageSize ? Number.parseInt(data.imageSize) : null
       },
       include: { category: true }
     });
+    
+    if (data.imageData) {
+      const generatedUrl = `/api/images/master/${newItem.id}`;
+      await prisma.masterFragrance.update({
+        where: { id: newItem.id },
+        data: { imageUrl: generatedUrl }
+      });
+      newItem.imageUrl = generatedUrl;
+    }
     res.status(201).json({ ...newItem, category: newItem.category.name, id: newItem.id.toString() });
   } catch (error) {
     console.error('Error creating repository item:', error);
@@ -862,7 +905,9 @@ app.put('/api/admin/repository/:id', async (req, res) => {
         price: data.price ? Number.parseFloat(data.price) : null,
         volume: data.volume ? Number.parseFloat(data.volume) : null,
         categoryId: Number.parseInt(data.categoryId),
-        category: undefined // Don't update relation object directly
+        imageSize: data.imageSize ? Number.parseInt(data.imageSize) : undefined,
+        category: undefined, // Don't update relation object directly
+        imageUrl: data.imageData ? `/api/images/master/${id}` : (data.imageUrl === undefined ? undefined : data.imageUrl)
       },
       include: { category: true }
     });

@@ -135,7 +135,7 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = async (): Promise<string | null> => {
+  const uploadImage = async (): Promise<{imageData: string, imageMimeType: string, imageSize: number} | null> => {
     if (!imageFile) return null;
     
     setUploading(true);
@@ -148,10 +148,14 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
         body: formData
       });
       
-      if (!response.ok) throw new Error('Failed to upload image');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || 'Failed to upload image');
+      }
+      
       const data = await response.json();
       setUploading(false);
-      return data.imageUrl;
+      return data;
     } catch (err) {
       setUploading(false);
       throw err;
@@ -164,10 +168,18 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
 
     try {
       let finalImageUrl = formData.imageUrl;
+      let finalImageData = undefined;
+      let finalImageMimeType = undefined;
+      let finalImageSize = undefined;
       
       if (imageFile) {
-        const uploadedUrl = await uploadImage();
-        if (uploadedUrl) finalImageUrl = uploadedUrl;
+        const uploadResult = await uploadImage();
+        if (uploadResult) {
+          finalImageData = uploadResult.imageData;
+          finalImageMimeType = uploadResult.imageMimeType;
+          finalImageSize = uploadResult.imageSize;
+          finalImageUrl = ""; // Clear static URL so it uses the DB image
+        }
       }
 
       const submitData = {
@@ -175,7 +187,10 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
         price: parseFloat(formData.price),
         volume: parseFloat(formData.volume),
         stockQuantity: parseInt(formData.stockQuantity),
-        imageUrl: finalImageUrl
+        imageUrl: finalImageUrl,
+        imageData: finalImageData,
+        imageMimeType: finalImageMimeType,
+        imageSize: finalImageSize
       };
 
       const url = editingItem 
@@ -196,7 +211,7 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
       resetForm();
       setIsDialogOpen(false);
     } catch (err) {
-      setError('Failed to save item');
+      setError(err instanceof Error ? err.message : 'Failed to save item');
       console.error(err);
     }
   };
@@ -220,7 +235,7 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
       categoryId: item.categoryId.toString(),
       imageUrl: item.imageUrl || ""
     });
-    setImagePreview(item.imageUrl ? `${SERVER_BASE_URL}${item.imageUrl}` : "");
+    setImagePreview(item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${SERVER_BASE_URL}${item.imageUrl}`) : "");
     setIsDialogOpen(true);
   };
 
@@ -385,7 +400,7 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
                 <TableRow key={item.id}>
                   <TableCell>
                     <div className="w-12 h-16 rounded border bg-muted/20 flex items-center justify-center overflow-hidden">
-                      {item.imageUrl ? <img src={`${SERVER_BASE_URL}${item.imageUrl}`} className="w-full h-full object-contain p-1" /> : <Search className="w-4 h-4 opacity-20" />}
+                      {item.imageUrl ? <img src={item.imageUrl.startsWith('http') ? item.imageUrl : `${SERVER_BASE_URL}${item.imageUrl}`} className="w-full h-full object-contain p-1" /> : <Search className="w-4 h-4 opacity-20" />}
                     </div>
                   </TableCell>
                   <TableCell>
